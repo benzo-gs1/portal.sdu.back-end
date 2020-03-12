@@ -5,9 +5,9 @@ import { Router } from "express";
 /**
  * Collects the routes from @origin directory
  *
- * @argument origin - directory to collect from
- * @argument ignore - array of ignored folders or files
- * @argument router - express.Router to be attached with
+ * @param origin - directory to collect from
+ * @param ignore - array of ignored folders or files
+ * @param router - express.Router to be attached with
  *
  * @returns express.Router containing all the routes from given origin
  */

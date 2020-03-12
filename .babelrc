@@ -8,5 +8,11 @@
         "rootPathSuffix": "./src/"
       }
     ]
-  ]
+  ],
+  "env": {
+    "debug": {
+      "sourceMaps": "inline",
+      "retainLines": true
+    }
+  }
 }

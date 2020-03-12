@@ -5,7 +5,7 @@ export default class Loaders {
   static async init() {
     const app = await expressLoader();
 
-    
+    app.use(routeCollector("@/routes"));
 
     return { app };
   }
