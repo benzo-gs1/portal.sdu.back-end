@@ -1,8 +1,17 @@
-require("dotenv").config();
+import config from "./config";
+import Loaders from "./loaders";
 
-import express from "express";
+/**
+ * Entry point of the system
+ *
+ * Initializing configurations & loaders
+ */
+async function main(args) {
+  const { app } = await Loaders.init();
 
-const PORT = process.env.PORT || 80;
-const app = express();
+  app.listen(config.port, () => {
+    console.log(`Server runs at port ${config.port}`);
+  });
+}
 
-app.listen(PORT, () => console.log(`Server runs at port ${PORT}`));
+main(process.argv);
