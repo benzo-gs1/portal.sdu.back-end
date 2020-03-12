@@ -1,7 +1,6 @@
-import { readdir, stat } from "fs";
+import { readdirSync, statSync } from "fs";
 import { join } from "path";
 import { Router } from "express";
-import { assert } from "chai";
 
 /**
  * Collects the routes from @origin directory
@@ -12,31 +11,29 @@ import { assert } from "chai";
  *
  * @returns express.Router containing all the routes from given origin
  */
-export default async function collector(origin, ignore = [], router = Router()) {
-  readdir(origin, (err, files) => {
-    assert.equal(err, undefined, "Route Collector could not find a given origin");
+export default async function collector(origin, ignore = [], router = Router(), root = origin) {
+  try {
+    const base = join(__dirname, "../", origin);
+    const items = readdirSync(base);
 
-    files.forEach(file => {
-      let fromPath = join(origin, file);
+    items.forEach(item => {
+      let pathToItem = join(origin, item);
 
-      stat(fromPath, (error, stat) => {
-        if (error) {
-          console.log(error);
-          return;
+      const status = statSync(join(base, item));
+
+      if (status.isDirectory()) collector(pathToItem, ignore, router, root);
+      else if (status.isFile()) {
+        const sliced = origin.replace(root, "");
+        const isIgnoring = ignore.find(i => new RegExp(i, "ig").test(pathToItem));
+
+        if (!isIgnoring) {
+          router.use(sliced, require(join(base, item)).default);
         }
-
-        if (stat.isFile()) {
-          const sliced = origin.slice(7);
-          const toBreak = ignore.find(item => sliced.includes(item));
-
-          if (!toBreak) {
-            router.use(join("/", sliced), require(join("./", fromPath)));
-          }
-        } else if (stat.isDirectory()) {
-          collector(fromPath, ignore, router);
-        }
-      });
+      }
     });
-  });
-  return router;
+    return router;
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 }

@@ -5,8 +5,7 @@ export default class Loaders {
   static async init(config) {
     const app = await expressLoader();
 
-    if (config.mode) app.use("/api", await routeCollector("dist/routes"));
-    else app.use("/api", await routeCollector("src/routes"));
+    app.use("/api", await routeCollector("routes"));
 
     return { app };
   }

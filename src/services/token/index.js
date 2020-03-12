@@ -3,12 +3,17 @@ import jwt from "jsonwebtoken";
 const secret = process.env.USER_TOKEN_SECRET;
 
 export default class TokenService {
-  static create(data, lifeTime = "1h") {
-    return jwt.sign(data, secret, { expiresIn: lifeTime });
+  static create(data, lifeTime = "3H") {
+    return jwt.sign(data, secret, { expiresIn: lifeTime, algorithm: "RS256" });
   }
 
-  static verify(token) {
-    return jwt.verify(token, secret);
+  static validate(token) {
+    try {
+      const result = jwt.verify(token, secret);
+      return result;
+    } catch (err) {
+      return false;
+    }
   }
 
   static middle(req, res, next) {
