@@ -2,10 +2,11 @@ import routeCollector from "./route-collector";
 import expressLoader from "./express-loader";
 
 export default class Loaders {
-  static async init() {
+  static async init(config) {
     const app = await expressLoader();
 
-    app.use(routeCollector("@/routes"));
+    if (config.mode) app.use("/api", await routeCollector("dist/routes"));
+    else app.use("/api", await routeCollector("src/routes"));
 
     return { app };
   }

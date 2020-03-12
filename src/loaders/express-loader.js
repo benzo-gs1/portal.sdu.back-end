@@ -1,14 +1,16 @@
 import express from "express";
 import cors from "cors";
 import { json } from "body-parser";
-import cookie from "cookie-parser";
+import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
-const app = express();
+export default async () => {
+  const app = express();
 
-app.use(cors());
-app.use(helmet());
-app.use(json());
-app.use(cookie());
+  app.use(cors());
+  app.use(helmet());
+  app.use(cookieParser());
+  app.use(json());
 
-export default app;
+  return app;
+};

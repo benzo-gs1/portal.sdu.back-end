@@ -1,6 +1,7 @@
 import { readdir, stat } from "fs";
 import { join } from "path";
 import { Router } from "express";
+import { assert } from "chai";
 
 /**
  * Collects the routes from @origin directory
@@ -11,12 +12,9 @@ import { Router } from "express";
  *
  * @returns express.Router containing all the routes from given origin
  */
-export default (origin, ignore = [], router = Router()) => {
+export default async function collector(origin, ignore = [], router = Router()) {
   readdir(origin, (err, files) => {
-    if (err) {
-      console.error("Could not list the directory", err);
-      process.exit(1);
-    }
+    assert.equal(err, undefined, "Route Collector could not find a given origin");
 
     files.forEach(file => {
       let fromPath = join(origin, file);
@@ -41,4 +39,4 @@ export default (origin, ignore = [], router = Router()) => {
     });
   });
   return router;
-};
+}
