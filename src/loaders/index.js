@@ -1,5 +1,6 @@
 import routeCollector from "./route-collector";
 import expressLoader from "./express-loader";
+import pipe from "@/pipe";
 
 export default class Loaders {
   static async init(config) {
