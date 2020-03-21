@@ -1,6 +1,6 @@
 import { Router } from "express";
 import TokenService from "@/services/token";
-import { mode } from "@/config";
+import { isProduction } from "@/config";
 
 const router = Router();
 
@@ -9,7 +9,7 @@ router.get("/validate", (req, res) => {
   res.status(200).end();
 });
 
-if (mode === "dev") {
+if (!isProduction) {
   router.post("/generate", (req, res) => {
     res.status(200).send({
       token: TokenService.create(req.body.data)

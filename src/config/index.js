@@ -4,8 +4,9 @@ config();
 
 export default {
   port: +process.env.PORT,
-  mode: process.env.ENV_MODE !== "dev",
+  isProduction: process.env.ENV_MODE !== "dev",
   secret: {
-    user: process.env.USER_TOKEN_SECRET
+    user: process.env.USER_TOKEN_SECRET,
+    algorithm: process.env.TOKEN_ALGORITHM
   }
 };

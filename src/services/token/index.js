@@ -1,10 +1,9 @@
 import jwt from "jsonwebtoken";
-
-const secret = process.env.USER_TOKEN_SECRET;
+import { secret } from "@/config";
 
 export default class TokenService {
-  static create(data, lifeTime = "3H") {
-    return jwt.sign(data, secret, { expiresIn: lifeTime, algorithm: "RS256" });
+  static create(data, lifeTime) {
+    return jwt.sign(data, secret.user, { expiresIn: lifeTime, algorithm: secret.algorithm });
   }
 
   static validate(token) {
