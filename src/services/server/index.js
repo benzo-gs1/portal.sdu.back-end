@@ -12,7 +12,7 @@ pipe.on("server::close", () => {
 });
 
 pipe.on("system::setup", () => {
-  console.info("ServerService is ready");
+  console.info("| ServerService is ready");
 });
 
 export default ServerService;
