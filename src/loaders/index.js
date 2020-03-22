@@ -4,6 +4,7 @@ import expressLoader from "./express-loader";
 import pipe from "@/pipe";
 import { init as pipeInit } from "@/pipe";
 import { init as configsInit } from "@/config";
+import { init as dbInit } from "./db-loader";
 
 export default class Loaders {
   static async init(args) {
@@ -12,6 +13,9 @@ export default class Loaders {
 
     // initializing event-pipe
     pipeInit();
+
+    // initializing mongodb connection
+    await dbInit();
 
     // initializing express & middleware plugins
     const app = await expressLoader();
