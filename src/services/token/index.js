@@ -1,15 +1,17 @@
 import jwt from "jsonwebtoken";
-import { secret } from "@/config";
+import config from "@/config";
 
 export default class TokenService {
-  static create(data, lifeTime) {
-    return jwt.sign(data, secret.user, { expiresIn: lifeTime, algorithm: secret.algorithm });
+  static create(data = {}, lifeTime = "1h") {
+    return jwt.sign(data, config.secret.user, {
+      expiresIn: lifeTime,
+      algorithm: config.secret.algorithm
+    });
   }
 
   static validate(token) {
     try {
-      const result = jwt.verify(token, secret);
-      return result;
+      return jwt.verify(token, config.secret.user);
     } catch (err) {
       return false;
     }
@@ -19,12 +21,16 @@ export default class TokenService {
     const header = req.headers["authorization"];
 
     if (header) {
-      const bearer = header.split(" ");
-      const token = bearer[1];
-
-      req.token = token;
+      req.token = this.bearerParser(header);
       next();
     }
     res.sendStatus(403);
+  }
+
+  static bearerParser(header) {
+    const bearer = header.split(" ");
+    const token = bearer[1];
+
+    return token ?? "";
   }
 }

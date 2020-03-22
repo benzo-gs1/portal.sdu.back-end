@@ -1,18 +1,21 @@
 import { Router } from "express";
 import TokenService from "@/services/token";
-import { isProduction } from "@/config";
+import config from "@/config";
 
 const router = Router();
 
 router.get("/validate", (req, res) => {
-  console.log(TokenService.validate(req.cookies.token));
-  res.status(200).end();
+  const token = TokenService.bearerParser(req.headers["authorization"]);
+  const result = TokenService.validate(token);
+
+  if (result) return res.status(200).send(result);
+  return res.sendStatus(406);
 });
 
-if (!isProduction) {
+if (!config.isProduction) {
   router.post("/generate", (req, res) => {
-    res.status(200).send({
-      token: TokenService.create(req.body.data)
+    return res.status(200).send({
+      token: TokenService.create(req.body)
     });
   });
 }
