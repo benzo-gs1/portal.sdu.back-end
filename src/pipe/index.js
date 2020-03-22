@@ -5,8 +5,12 @@ const pipe = new EventEmitter2({
   delimiter: "::"
 });
 
+pipe.on("system::setup", () => {
+  console.info("| Event pipe ready");
+});
+
 export function init() {
-  
+  pipe.emit("system::setup");
 }
 
 export default pipe;

@@ -1,4 +1,9 @@
 import { config } from "dotenv";
+import pipe from "@/pipe";
+
+pipe.on("system::setup", () => {
+  console.info("| Configs ready");
+});
 
 const configs = {
   port: 3000,

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import config from "@/config";
 import pipe from "@/pipe";
 
 const router = Router();
