@@ -1,12 +1,30 @@
 import { config } from "dotenv";
+import pipe from "@/pipe";
 
-config();
+pipe.on("system::setup", () => {
+  console.info("| Configs ready");
+});
 
-export default {
-  port: +process.env.PORT,
-  isProduction: process.env.ENV_MODE !== "dev",
+const configs = {
+  port: 3000,
+  isProduction: false,
   secret: {
-    user: process.env.USER_TOKEN_SECRET,
-    algorithm: process.env.TOKEN_ALGORITHM
+    user: "default",
+    algorithm: "HS256"
   }
 };
+
+export function setConfig(key, value) {
+  if (key && value) configs[key] = value;
+}
+
+export function init() {
+  config();
+
+  setConfig("port", +process.env.PORT);
+  setConfig("isProduction", process.env.ENV_MODE !== "dev");
+  setConfig("user", process.env.USER_TOKEN_SECRET);
+  setConfig("secret", { algorithm: process.env.TOKEN_ALGORITHM });
+}
+
+export default configs;

@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import config from "@/config";
+import pipe from "@/pipe";
 
-export default class TokenService {
+class TokenService {
   static create(data = {}, lifeTime = "1h") {
     return jwt.sign(data, config.secret.user, {
       expiresIn: lifeTime,
@@ -34,3 +35,9 @@ export default class TokenService {
     return token ?? "";
   }
 }
+
+pipe.on("system::setup", () => {
+  console.info("| TokenService ready");
+});
+
+export default TokenService;
