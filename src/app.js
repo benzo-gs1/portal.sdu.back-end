@@ -1,4 +1,4 @@
-import config from "./config/";
+import config from "./config";
 import Loaders from "./loaders";
 
 /**
@@ -9,7 +9,7 @@ import Loaders from "./loaders";
 async function main(args) {
   const { app } = await Loaders.init(args);
 
-  app.listen(config.port, () => {
+  const server = app.listen(config.port, () => {
     console.log(`Server runs at port ${config.port}`);
   });
 }

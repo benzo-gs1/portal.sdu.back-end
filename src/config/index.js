@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 
-let configs = {
+const configs = {
   port: 3000,
   isProduction: false,
   secret: {
@@ -9,17 +9,17 @@ let configs = {
   }
 };
 
+export function setConfig(key, value) {
+  if (key && value) configs[key] = value;
+}
+
 export function init() {
   config();
 
-  configs = {
-    port: +process.env.PORT,
-    isProduction: process.env.ENV_MODE !== "dev",
-    secret: {
-      user: process.env.USER_TOKEN_SECRET,
-      algorithm: process.env.TOKEN_ALGORITHM
-    }
-  };
+  setConfig("port", +process.env.PORT);
+  setConfig("isProduction", process.env.ENV_MODE !== "dev");
+  setConfig("user", process.env.USER_TOKEN_SECRET);
+  setConfig("secret", { algorithm: process.env.TOKEN_ALGORITHM });
 }
 
 export default configs;
