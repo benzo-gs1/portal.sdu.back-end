@@ -2,6 +2,7 @@ import routeCollector from "./route-collector";
 import serviceCollector from "./service-collector";
 import expressLoader from "./express-loader";
 import pipe from "@/pipe";
+import config from "@/config";
 import { init as pipeInit } from "@/pipe";
 import { init as configsInit } from "@/config";
 import { init as dbInit } from "./db-loader";
@@ -24,7 +25,14 @@ export default class Loaders {
     await serviceCollector();
 
     // collecting routes
-    app.use("/api", await routeCollector("routes"));
+    const ignore = [];
+
+    // if production, ignore all these routes
+    if (config.isProduction) {
+      ignore.push("test.js");
+    }
+    app.use("/api", await routeCollector("routes", ignore));
+    
 
     pipe.emit("system::setup");
 

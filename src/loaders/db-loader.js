@@ -5,5 +5,5 @@ import pipe from "@/pipe";
 export async function init() {
   mongoose.connection.on("open", () => pipe.emit("mongo::connected"));
 
-  await mongoose.connect(config.mongodb.uri);
+  // await mongoose.connect(config.mongodb.uri);
 }
