@@ -7,7 +7,7 @@ import Loaders from "./loaders";
  * Initializing configurations & loaders
  */
 async function main(args) {
-  const { app } = await Loaders.init(config);
+  const { app } = await Loaders.init(args);
 
   app.listen(config.port, () => {
     console.log(`Server runs at port ${config.port}`);

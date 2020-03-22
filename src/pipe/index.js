@@ -5,4 +5,8 @@ const pipe = new EventEmitter2({
   delimiter: "::"
 });
 
+export function init() {
+  
+}
+
 export default pipe;
