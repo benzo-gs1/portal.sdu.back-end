@@ -11,6 +11,9 @@ const configs = {
   secret: {
     user: "default",
     algorithm: "HS256"
+  },
+  mongodb: {
+    uri: ""
   }
 };
 
@@ -22,9 +25,10 @@ export function init() {
   config();
 
   setConfig("port", +process.env.PORT);
-  setConfig("isProduction", process.env.ENV_MODE !== "dev");
+  setConfig("isProduction", process.env.ENV_MODE === "prod");
   setConfig("user", process.env.USER_TOKEN_SECRET);
   setConfig("secret", { algorithm: process.env.TOKEN_ALGORITHM });
+  setConfig("mongodb", { uri: process.env.MONGODB_URI });
 }
 
 export default configs;
