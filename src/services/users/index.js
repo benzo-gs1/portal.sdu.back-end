@@ -1,5 +1,6 @@
 import UsersModel from "../../models/users";
 import bcrypt from "bcrypt";
+import pipe from "@/pipe";
 
 class UsersService {
   static async create(data) {
@@ -9,12 +10,12 @@ class UsersService {
       const user = new UsersModel(data);
       return {
         status: true,
-        result: await user.save()
+        user: await user.save()
       };
     } catch (error) {
       return {
         status: false,
-        result: error
+        error
       };
     }
   }
@@ -31,5 +32,9 @@ class UsersService {
     return bcrypt.hashSync(p, bcrypt.genSaltSync(8));
   }
 }
+
+pipe.on("system::setup", () => {
+  console.info("| UsersService ready");
+});
 
 export default UsersService;
