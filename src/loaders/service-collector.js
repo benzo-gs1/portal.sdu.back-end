@@ -14,10 +14,11 @@ export default async function collector(ignore = []) {
 
     services.forEach((service) => {
       const path = join(base, service);
+      Logger.log(`${service} service is up`);
       require(path);
     });
   } catch (err) {
-    console.error(err);
+    Logger.error("Service Collector", err);
     process.exit(1);
   }
 }

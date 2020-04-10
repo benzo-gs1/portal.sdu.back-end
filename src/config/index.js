@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+import Logger from "@/services/logger";
 
 const configs = {
   port: 3000,
@@ -9,7 +10,10 @@ const configs = {
 };
 
 export function setConfig(key, value) {
-  if (key && value) configs[key] = value;
+  if (key && value) {
+    Logger.log(`Configuration update at ${key} by: ${configs[key]} --> ${value}`);
+    configs[key] = value;
+  }
 }
 
 export function init() {
