@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import config from "@/config";
-import pipe from "@/pipe";
 
 class TokenService {
   static create(data = {}, lifeTime = "1h") {
@@ -35,9 +34,5 @@ class TokenService {
     return token ?? "";
   }
 }
-
-pipe.on("server::setup", () => {
-  console.info("| TokenService ready");
-});
 
 export default TokenService;

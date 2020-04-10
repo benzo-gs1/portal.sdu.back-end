@@ -1,9 +1,8 @@
 import { config } from "dotenv";
+import Logger from "@/services/logger";
 import pipe from "@/pipe";
 
-pipe.on("server::setup", () => {
-  console.info("| Configs ready");
-});
+pipe.on("server::setup", () => Logger.handled("server::setup", "Config", "Configs ready"));
 
 const configs = {
   port: 3000,

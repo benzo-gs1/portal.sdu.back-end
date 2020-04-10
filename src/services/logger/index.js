@@ -1,6 +1,6 @@
 import config from "@/config";
 
-export default class Logger {
+class Logger {
   static route(req) {
     if (config.isProduction) {
       // send task to job queue
@@ -34,3 +34,5 @@ export default class Logger {
     return new Date().toLocaleString();
   }
 }
+
+export default Logger;

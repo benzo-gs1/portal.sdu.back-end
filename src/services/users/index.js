@@ -1,6 +1,5 @@
 import UsersModel from "../../models/users";
 import bcrypt from "bcrypt";
-import pipe from "@/pipe";
 
 class UsersService {
   static async create(data) {
@@ -32,9 +31,5 @@ class UsersService {
     return bcrypt.hashSync(p, bcrypt.genSaltSync(8));
   }
 }
-
-pipe.on("server::setup", () => {
-  console.info("| UsersService ready");
-});
 
 export default UsersService;

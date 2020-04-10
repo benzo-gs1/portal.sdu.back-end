@@ -11,8 +11,4 @@ pipe.on("server::close", () => {
   ServerService.closeServer(config.server);
 });
 
-pipe.on("server::setup", () => {
-  console.info("| ServerService is ready");
-});
-
 export default ServerService;
