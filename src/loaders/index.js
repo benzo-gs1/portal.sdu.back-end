@@ -34,7 +34,7 @@ export default class Loaders {
     app.use("/api", await routeCollector("routes", ignore));
     
 
-    pipe.emit("system::setup");
+    pipe.emit("server::setup");
 
     return { app };
   }

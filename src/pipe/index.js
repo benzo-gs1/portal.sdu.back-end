@@ -6,7 +6,7 @@ const pipe = new EventEmitter2({
 });
 
 export function init() {
-  pipe.on("system::setup", () => {
+  pipe.on("server::setup", () => {
     console.info("| Event pipe ready");
   });
 }

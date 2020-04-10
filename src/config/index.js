@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import pipe from "@/pipe";
 
-pipe.on("system::setup", () => {
+pipe.on("server::setup", () => {
   console.info("| Configs ready");
 });
 

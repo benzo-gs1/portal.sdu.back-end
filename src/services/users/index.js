@@ -10,12 +10,12 @@ class UsersService {
       const user = new UsersModel(data);
       return {
         status: true,
-        user: await user.save()
+        user: await user.save(),
       };
     } catch (error) {
       return {
         status: false,
-        error
+        error,
       };
     }
   }
@@ -33,7 +33,7 @@ class UsersService {
   }
 }
 
-pipe.on("system::setup", () => {
+pipe.on("server::setup", () => {
   console.info("| UsersService ready");
 });
 

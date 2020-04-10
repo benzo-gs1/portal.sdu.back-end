@@ -36,7 +36,7 @@ class TokenService {
   }
 }
 
-pipe.on("system::setup", () => {
+pipe.on("server::setup", () => {
   console.info("| TokenService ready");
 });
 

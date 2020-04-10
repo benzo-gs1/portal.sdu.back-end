@@ -11,7 +11,7 @@ pipe.on("server::close", () => {
   ServerService.closeServer(config.server);
 });
 
-pipe.on("system::setup", () => {
+pipe.on("server::setup", () => {
   console.info("| ServerService is ready");
 });
 
