@@ -8,13 +8,9 @@ pipe.on("server::setup", () => {
 const configs = {
   port: 3000,
   isProduction: false,
-  secret: {
-    user: "default",
-    algorithm: "HS256"
-  },
-  mongodb: {
-    uri: ""
-  }
+  secretAlgorithm: "HS256",
+  secretKey: "default",
+  mongodbUri: "",
 };
 
 export function setConfig(key, value) {
@@ -26,9 +22,9 @@ export function init() {
 
   setConfig("port", +process.env.PORT);
   setConfig("isProduction", process.env.ENV_MODE === "prod");
-  setConfig("user", process.env.USER_TOKEN_SECRET);
-  setConfig("secret", { algorithm: process.env.TOKEN_ALGORITHM });
-  setConfig("mongodb", { uri: process.env.MONGODB_URI });
+  setConfig("secretKey", process.env.USER_TOKEN_SECRET);
+  setConfig("secretAlgorithm", process.env.TOKEN_ALGORITHM);
+  setConfig("mongodbUri", process.env.MONGODB_URI);
 }
 
 export default configs;
