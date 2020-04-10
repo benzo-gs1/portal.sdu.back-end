@@ -5,8 +5,9 @@
   "main": "src/app.js",
   "scripts": {
     "dev": "nodemon --exec babel-node src/app.js",
-    "build": "babel src --out-dir dist/",
-    "start": "node dist/app.js"
+    "build": "mocha --production && babel src --out-dir dist/",
+    "start": "node dist/app.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
