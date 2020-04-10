@@ -14,8 +14,6 @@ export function init() {
   pipe.on("**", function () {
     Logger.fired(this.event);
   });
-
-  pipe.on("server::setup", () => Logger.handled("server::setup", "EventPipe", "Event pipe ready"));
 }
 
 export default pipe;
