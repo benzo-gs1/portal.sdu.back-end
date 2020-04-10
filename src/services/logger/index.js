@@ -6,7 +6,7 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.info(`[${this.getCurrentTime()}] -> ${req.method} request at ${req.path}`);
+      console.info(`[${this.getCurrentTime()}] -> ${req.method} REQUEST at ${req.path}`);
     }
   }
 
@@ -15,7 +15,7 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.warn(`[${this.getCurrentTime()}] -> ${name} event fired`);
+      console.warn(`[${this.getCurrentTime()}] -> EVENT fired: ${name}`);
     }
   }
 
@@ -24,9 +24,27 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.log(
-        `[${this.getCurrentTime()}] -> ${name} event handled by ${who}\nMessage: ${message}`
+      console.info(
+        `[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who}\nMessage: ${message}`
       );
+    }
+  }
+
+  static error(who, message) {
+    if (config.isProduction) {
+      // send task to job queue
+    } else {
+      // dev only
+      console.error(`[${this.getCurrentTime()}] -> ERROR at ${who}\nMessage: ${message}`);
+    }
+  }
+
+  static log(message) {
+    if (config.isProduction) {
+      // send task to job queue
+    } else {
+      // dev only
+      console.log(`[${this.getCurrentTime()}] -> LOG: ${message}`);
     }
   }
 
