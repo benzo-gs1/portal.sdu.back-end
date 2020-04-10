@@ -1,6 +1,5 @@
 require("dotenv").config();
 const expect = require("chai").expect;
-const dbLoader = require("../src/loaders/db-loader");
 
 const isProduction = process.argv[2] === "--production";
 
@@ -17,9 +16,8 @@ describe("Configurations", () => {
 });
 
 describe("Database connection", () => {
+  const uri = process.env.MONGODB_URI;
   it("must have mongodb uri", () => {
-    expect(process.env.MONGODB_URI).not.to.be.undefined;
+    expect(uri).not.to.be.undefined;
   });
-
-  it("must have connection to the database", () => {});
 });
