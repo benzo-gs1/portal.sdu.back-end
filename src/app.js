@@ -9,11 +9,12 @@ import Logger from "@/services/logger";
  * Initializing configurations & loaders
  */
 async function main(args) {
-  const { app } = await Loaders.init(args);
+  const { app, connection } = await Loaders.init(args);
 
   const server = app.listen(config.port, () => Logger.log(`Server started at port ${config.port}`));
 
   setConfig("server", server);
+  setConfig("connection", connection);
 }
 
 main(process.argv);

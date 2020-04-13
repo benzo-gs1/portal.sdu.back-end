@@ -24,7 +24,7 @@ export default class Loaders {
 
     // initializing mongodb connection
     Logger.log("MongoDB initializing....");
-    await dbInit();
+    const connection = await dbInit();
     Logger.log("MongoDB Done");
 
     // initializing express & middleware plugins
@@ -56,6 +56,6 @@ export default class Loaders {
     );
     Logger.log("Routes Done");
 
-    return { app };
+    return { app, connection };
   }
 }
