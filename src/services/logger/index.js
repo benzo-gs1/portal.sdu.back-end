@@ -24,9 +24,7 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.info(
-        `[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who}\nMessage: ${message}`
-      );
+      console.info(`[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who} performing: `);
     }
   }
 
