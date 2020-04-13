@@ -2,6 +2,7 @@ import routeCollector from "./route-collector";
 import serviceCollector from "./service-collector";
 import expressLoader from "./express-loader";
 import pipe from "@/pipe";
+import events from "@/pipe/names";
 import config from "@/config";
 import Logger from "@/services/logger";
 import { init as pipeInit } from "@/pipe";
@@ -20,7 +21,7 @@ export default class Loaders {
     pipeInit();
     Logger.log("EventPipe Done");
 
-    pipe.emit("server::setup");
+    pipe.emit(events.server.setup);
 
     // initializing mongodb connection
     Logger.log("MongoDB initializing....");

@@ -1,6 +1,7 @@
 import pipe from "@/pipe";
 import config from "@/config";
 import Logger from "@/services/logger";
+import events from "@/pipe/names";
 
 class ServerService {
   static closeServer(server) {
@@ -8,8 +9,8 @@ class ServerService {
   }
 }
 
-pipe.on("server::close", () => {
-  Logger.handled("server::close", "Server Service", "closing server...");
+pipe.on(events.server.close, () => {
+  Logger.handled(events.server.close, "Server Service", "closing server...");
   ServerService.closeServer(config.server);
 });
 
