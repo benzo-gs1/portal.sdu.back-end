@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const Users = new Schema({
+  _id: Schema.ObjectId,
   username: {
     type: String,
     required: true,
@@ -18,7 +19,20 @@ const Users = new Schema({
   language: {
     type: String,
     default: "en"
-  }
+  },
+  department:{
+    type: Schema.ObjectId,
+    
+  },
+  faculty:{
+    type: Schema.ObjectId,
+    
+  },
+  curriculum:{
+    type: Schema.ObjectId,
+    
+  },
+
 });
 
 const UsersModel = model("users", Users);
