@@ -1,8 +1,10 @@
 import { Schema, model } from "mongoose";
 import models from "@/models/names";
 
+const ObjectId = Schema.Types.ObjectId;
+
 const Users = new Schema({
-  _id: Schema.ObjectId,
+  _id: ObjectId,
   username: {
     type: String,
     required: true,
@@ -13,23 +15,19 @@ const Users = new Schema({
     type: String,
     required: true,
   },
-  role: {
-    type: String,
-    required: true,
-  },
+  role: [
+    {
+      name: String,
+      level: Number,
+    },
+  ],
   language: {
     type: String,
     default: "en",
   },
-  department: {
-    type: Schema.Types.ObjectId,
-  },
-  faculty: {
-    type: Schema.Types.ObjectId,
-  },
-  curriculum: {
-    type: Schema.Types.ObjectId,
-  },
+  department: ObjectId,
+  faculty: ObjectId,
+  curriculum: ObjectId,
 });
 
 const UsersModel = model(models.users, Users);

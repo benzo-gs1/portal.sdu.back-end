@@ -1,4 +1,4 @@
-import { deepFreeze } from "@/utils";
+import deepFreeze from "@/utils/deepFreeze";
 
 export default deepFreeze({
   users: "Users",
