@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import models from "@/models/names";
 
 const Users = new Schema({
   _id: Schema.ObjectId,
@@ -6,35 +7,31 @@ const Users = new Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   role: {
     type: String,
-    required: true
+    required: true,
   },
   language: {
     type: String,
-    default: "en"
+    default: "en",
   },
-  department:{
-    type: Schema.ObjectId,
-    
+  department: {
+    type: Schema.Types.ObjectId,
   },
-  faculty:{
-    type: Schema.ObjectId,
-    
+  faculty: {
+    type: Schema.Types.ObjectId,
   },
-  curriculum:{
-    type: Schema.ObjectId,
-    
+  curriculum: {
+    type: Schema.Types.ObjectId,
   },
-
 });
 
-const UsersModel = model("users", Users);
+const UsersModel = model(models.users, Users);
 
 export default UsersModel;
