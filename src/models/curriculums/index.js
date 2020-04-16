@@ -1,25 +1,15 @@
 import { Schema, model } from "mongoose";
 import models from "@/models/names";
-let Course = require("../courses");
+import createSchemaRef from "@/utils/createSchemaRef";
 
 const Curriculums = new Schema({
-  _id: Schema.ObjectId,
-  semester: {
-    type: String,
-    required: true,
-    courses: [
-      {
-        type: Course,
-      },
-    ],
-    electives: [
-      [
-        {
-          type: Course,
-        },
-      ],
-    ],
-  },
+  semesters: [
+    {
+      index: Number,
+      courses: [createSchemaRef(models.courses)],
+      electives: [[createSchemaRef(models.courses)]],
+    },
+  ],
   year: {
     type: Number,
     required: true,
@@ -34,27 +24,15 @@ const Curriculums = new Schema({
     required: true,
     unique: true,
   },
-  title: {
-    en: String,
-    kz: String,
-    ru: String,
-  },
+  title: Object,
   language: {
     type: String,
     default: "en",
   },
-  department: {
-    type: Schema.ObjectId,
-  },
+  department: createSchemaRef(models.departments),
   level: {
-    type: Object,
-    required: true,
     short: String,
-    full: {
-      en: String,
-      kz: String,
-      ru: String,
-    },
+    full: Object,
   },
 });
 

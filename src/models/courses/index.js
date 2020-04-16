@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 import models from "@/models/names";
+import createSchemaRef from "@/utils/createSchemaRef";
 
 const Courses = new Schema({
-  _id: Schema.ObjectId,
   code: {
     type: String,
     required: true,
@@ -16,15 +16,8 @@ const Courses = new Schema({
     type: String,
     default: "en",
   },
-  name: {
-    en: String,
-    kz: String,
-    ru: String,
-  },
-  department: {
-    type: Object,
-    _id: Schema.ObjectId,
-  },
+  title: Object,
+  department: createSchemaRef(models.departments),
   hours: {
     theory: Number,
     practice: Number,
