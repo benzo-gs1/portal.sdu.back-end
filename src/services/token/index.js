@@ -2,11 +2,14 @@ import jwt from "jsonwebtoken";
 import config from "@/config";
 
 class TokenService {
-  static create(data = {}, lifeTime = "1h") {
-    return jwt.sign(data, config.secretKey, {
-      expiresIn: lifeTime,
-      algorithm: config.secretAlgorithm
-    });
+  static create(data, lifeTime = "1h") {
+    if (data.ip && data.role_level && data.username) {
+      return jwt.sign(data, config.secretKey, {
+        expiresIn: lifeTime,
+        algorithm: config.secretAlgorithm,
+      });
+    }
+    return false;
   }
 
   static validate(token) {
@@ -21,10 +24,16 @@ class TokenService {
     const header = req.headers["authorization"];
 
     if (header) {
-      req.token = this.bearerParser(header);
-      next();
+      const parsed = this.bearerParser(header);
+      const token = this.validate(parsed);
+
+      if (token) {
+        req.token = token;
+        next();
+      }
     }
-    res.sendStatus(403);
+
+    return res.sendStatus(403);
   }
 
   static bearerParser(header) {
