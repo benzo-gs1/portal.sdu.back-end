@@ -9,4 +9,10 @@ router.get("/kill", (req, res) => {
   return res.end();
 });
 
+router.get("/test", (req, res) => {
+  const ip = req.clientIp;
+
+  res.send({ ip });
+});
+
 export default router;

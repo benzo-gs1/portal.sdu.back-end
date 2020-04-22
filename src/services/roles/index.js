@@ -8,6 +8,7 @@ import roles from "./roles";
  * Next, verify that route is accessible for the given role
  * Next, verify that the resource is owned by user using his username
  *
+ * RolesService will give IP address and role level verification
  */
 class RolesService {}
 

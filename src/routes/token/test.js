@@ -4,9 +4,12 @@ import TokenService from "@/services/token";
 const router = Router();
 
 router.post("/generate", (req, res) => {
-  return res.status(200).send({
-    token: TokenService.create(req.body)
-  });
+  const token = TokenService.create(req.body);
+
+  if (token) {
+    return res.status(200).send({ token });
+  }
+  return res.status(400).send({ error: "payload required" });
 });
 
 export default router;
