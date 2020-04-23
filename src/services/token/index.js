@@ -36,32 +36,15 @@ class TokenService {
     }
   }
 
-  /**
-   * @description middleware function for token validation
-   *
-   * @returns sets req.token property with token's payload or sends 403 HTTP status code
-   */
-  static middle(req, res, next) {
-    const header = req.headers["authorization"];
+  static bearerParser(headers) {
+    const header = headers["authorization"];
 
     if (header) {
-      const parsed = this.bearerParser(header);
-      const token = this.validate(parsed);
-
-      if (token) {
-        req.token = token;
-        next();
-      }
+      const bearer = header.split(" ");
+      const token = bearer[1];
+      return token ?? false;
     }
-
-    return res.sendStatus(403);
-  }
-
-  static bearerParser(header) {
-    const bearer = header.split(" ");
-    const token = bearer[1];
-
-    return token ?? "";
+    return false;
   }
 }
 

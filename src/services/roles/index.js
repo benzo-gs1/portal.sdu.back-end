@@ -11,22 +11,6 @@ import roles from "./roles";
  * RolesService will give IP address and role level verification
  */
 class RolesService {
-  /**
-   * @description middleware function for verifying client's ip address
-   *
-   */
-  static middleIp(req, res, next) {
-    const token = req.token;
-    const ip = req.clientIp;
-
-    if (token === ip) return next();
-    return res.sendStatus(401);
-  }
-
-  static middleRole(req, res, next) {
-    const { role_level } = req.token;
-  }
-
   static containsAction(routePath, role_level) {
     const role = roles[role_level];
     let allow = false;
