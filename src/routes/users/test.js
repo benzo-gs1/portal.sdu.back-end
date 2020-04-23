@@ -9,4 +9,13 @@ router.post("/create", async (req, res) => {
   return res.status(result.status ? 200 : 406).send(result);
 });
 
+const options = {
+  isTest: true,
+  tokenCheck: false,
+  ipCheck: false,
+  roleCheck: false,
+};
+
+export { options };
+
 export default router;

@@ -10,9 +10,16 @@ router.get("/kill", (req, res) => {
 });
 
 router.get("/test", (req, res) => {
-  const ip = req.clientIp;
-
-  res.send({ ip });
+  res.send({ data: req.url });
 });
+
+const options = {
+  isTest: true,
+  tokenCheck: false,
+  ipCheck: false,
+  roleCheck: false,
+};
+
+export { options };
 
 export default router;

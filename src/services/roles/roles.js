@@ -11,6 +11,6 @@ import student from "./roles/student";
  * @tutorial modules - Place structure of modules that needs to be loaded in client's app
  * @tutorial extends - list of roles from what to extend actions
  */
-const roles = { public: publicRole, student };
+const roles = [publicRole, student];
 
 export default roles;

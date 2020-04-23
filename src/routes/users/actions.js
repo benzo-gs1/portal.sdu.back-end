@@ -9,14 +9,23 @@ router.post("/validate-credentials", async (req, res) => {
 
   if (user && UsersService.validatePasswords(password, user.password)) {
     return res.status(200).send({
-      status: true
+      status: true,
     });
   }
 
   return res.status(user ? 406 : 404).send({
     status: false,
-    err: user ? "Password is incorrect" : "User not found"
+    err: user ? "Password is incorrect" : "User not found",
   });
 });
+
+const options = {
+  isTest: false,
+  tokenCheck: false,
+  ipCheck: false,
+  roleCheck: false,
+};
+
+export { options };
 
 export default router;
