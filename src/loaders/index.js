@@ -39,22 +39,8 @@ export default class Loaders {
     Logger.log("Services Done");
 
     // collecting routes
-    const ignore = [];
-
-    // if production, ignore all these routes
-    if (config.isProduction) {
-      ignore.push("test.js");
-    }
     Logger.log("Routes initializing....");
-    app.use(
-      "/api",
-      (req, res, next) => {
-        // Send to the logger
-        Logger.route(req);
-        next();
-      },
-      await routeCollector("routes", ignore)
-    );
+    app.use("/api", Logger.middle, await routeCollector("routes"));
     Logger.log("Routes Done");
 
     return { app, connection };
