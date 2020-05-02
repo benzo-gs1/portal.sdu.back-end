@@ -1,9 +1,9 @@
 import deepFreeze from "@/utils/deepFreeze";
 
 export default deepFreeze({
-  users: "Users",
-  courses: "Courses",
-  curriculums: "Curriculums",
-  departments: "Departments",
-  faculties: "Faculties",
+  users: "users",
+  courses: "courses",
+  curriculums: "curriculums",
+  departments: "departments",
+  faculties: "faculties",
 });
