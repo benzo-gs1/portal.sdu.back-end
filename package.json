@@ -5,9 +5,9 @@
   "main": "src/app.js",
   "scripts": {
     "dev": "nodemon --exec babel-node src/app.js",
-    "build": "mocha --production --require @babel/register && babel src --out-dir dist/",
+    "build": "mocha --production --require @babel/register --check-leaks --inline-diffs && babel src --out-dir dist/",
     "start": "node dist/app.js",
-    "test": "mocha --require @babel/register"
+    "test": "mocha --require @babel/register --check-leaks --inline-diffs"
   },
   "repository": {
     "type": "git",
