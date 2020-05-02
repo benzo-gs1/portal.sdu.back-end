@@ -1,37 +1,48 @@
 import jwt from "jsonwebtoken";
 import config from "@/config";
+import Logger from "@/services/logger";
 
 class TokenService {
-  static create(data = {}, lifeTime = "1h") {
-    return jwt.sign(data, config.secretKey, {
-      expiresIn: lifeTime,
-      algorithm: config.secretAlgorithm
-    });
-  }
-
-  static validate(token) {
+  /**
+   * @description Creating user access token.
+   *
+   * @returns signed jwt token or false in case of error
+   */
+  static create(data, lifeTime = "1h") {
     try {
-      return jwt.verify(token, config.secretKey);
+      return jwt.sign(data, config.secretKey, {
+        expiresIn: lifeTime,
+        algorithm: config.secretAlgorithm,
+      });
     } catch (err) {
+      Logger.error("Token Service", err);
       return false;
     }
   }
 
-  static middle(req, res, next) {
-    const header = req.headers["authorization"];
-
-    if (header) {
-      req.token = this.bearerParser(header);
-      next();
+  /**
+   * @description validates given token
+   *
+   * @returns encapsulated data or false in case token is invalid
+   */
+  static validate(token) {
+    try {
+      return jwt.verify(token, config.secretKey);
+    } catch (err) {
+      Logger.error("Token Service", err);
+      return false;
     }
-    res.sendStatus(403);
   }
 
-  static bearerParser(header) {
-    const bearer = header.split(" ");
-    const token = bearer[1];
+  static bearerParser(headers) {
+    const header = headers["authorization"];
 
-    return token ?? "";
+    if (header) {
+      const bearer = header.split(" ");
+      const token = bearer[1];
+      return token ?? false;
+    }
+    return false;
   }
 }
 

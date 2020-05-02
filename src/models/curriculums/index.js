@@ -1,58 +1,41 @@
-import { Schema, model, isValidObjectId, Mongoose } from "mongoose";
-let Course = require('../courses');
+import { Schema, model } from "mongoose";
+import models from "@/models/names";
+import createSchemaRef from "@/utils/createSchemaRef";
 
 const Curriculums = new Schema({
-    _id: Schema.ObjectId,
-    semester: {
-        type: String,
-        required: true,
-        courses:[{
-            type:Course,
-        }],
-        electives:[[{
-            type:Course,
-        }]],
+  semesters: [
+    {
+      index: Number,
+      courses: [createSchemaRef(models.courses)],
+      electives: [[createSchemaRef(models.courses)]],
     },
-    year:{
-        type: Number,
-        required: true,
-    },
-    code:{
-        type: Number,
-        required: true,
-        unique: true,
-    },
-    cipher:{
-        type: Number,
-        required: true,
-        unique: true,
-    },
-    title:{
-        en:String,
-        kz:String,
-        ru:String,
-    },
-    language:{
-        type: String,
-        default: 'en',
-    },
-    department:{
-        type: Schema.ObjectId,
-
-    },
-    level:{
-        type: Object,
-        required: true,
-        short:String,
-        full:{
-            en:String,
-            kz:String,
-            ru:String,    
-        }
-    }
+  ],
+  year: {
+    type: Number,
+    required: true,
+  },
+  code: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  cipher: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  title: Object,
+  language: {
+    type: String,
+    default: "en",
+  },
+  department: createSchemaRef(models.departments),
+  level: {
+    short: String,
+    full: Object,
+  },
 });
 
-
-const CurriculumsModel = model("curriculum", Curriculums);
+const CurriculumsModel = model(models.curriculums, Curriculums);
 
 export default CurriculumsModel;

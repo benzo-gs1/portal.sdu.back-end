@@ -1,40 +1,33 @@
 import { Schema, model } from "mongoose";
+import models from "@/models/names";
+import createSchemaRef from "@/utils/createSchemaRef";
 
 const Users = new Schema({
-  _id: Schema.ObjectId,
   username: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
-  role: {
-    type: String,
-    required: true
-  },
+  role: [
+    {
+      name: String,
+      level: Number,
+    },
+  ],
   language: {
     type: String,
-    default: "en"
+    default: "en",
   },
-  department:{
-    type: Schema.ObjectId,
-    
-  },
-  faculty:{
-    type: Schema.ObjectId,
-    
-  },
-  curriculum:{
-    type: Schema.ObjectId,
-    
-  },
-
+  department: createSchemaRef(models.departments),
+  faculty: createSchemaRef(models.faculties),
+  curriculum: createSchemaRef(models.curriculums),
 });
 
-const UsersModel = model("users", Users);
+const UsersModel = model(models.users, Users);
 
 export default UsersModel;

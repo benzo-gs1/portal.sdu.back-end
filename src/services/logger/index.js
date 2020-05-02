@@ -6,7 +6,9 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.info(`[${this.getCurrentTime()}] -> ${req.method} REQUEST at ${req.path}`);
+      console.info(
+        `[${this.getCurrentTime()}] -> ${req.method} REQUEST at ${req.path}`
+      );
     }
   }
 
@@ -24,7 +26,9 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.info(`[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who} performing: `);
+      console.info(
+        `[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who} performing: `
+      );
     }
   }
 
@@ -33,7 +37,9 @@ class Logger {
       // send task to job queue
     } else {
       // dev only
-      console.error(`[${this.getCurrentTime()}] -> ERROR at ${who}\nMessage: ${message}`);
+      console.error(
+        `[${this.getCurrentTime()}] -> ERROR at ${who}\nMessage: ${message}`
+      );
     }
   }
 
@@ -48,6 +54,11 @@ class Logger {
 
   static getCurrentTime() {
     return new Date().toLocaleString();
+  }
+
+  static middle(req, res, next) {
+    Logger.route(req);
+    next();
   }
 }
 
