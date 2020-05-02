@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { init } from "@/loaders/db-loader";
-
-let connection;
+import config from "@/config";
 
 describe("Database", function () {
   // opening connection

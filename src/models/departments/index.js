@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema } from "mongoose";
 import models from "@/models/names";
 import createSchemaRef from "@/utils/createSchemaRef";
 
@@ -13,8 +13,4 @@ const DepartmentsSchema = new Schema({
   managers: [createSchemaRef(models.users)],
 });
 
-const DepartmentsModel = model(models.departments, DepartmentsSchema);
-
-export { DepartmentsSchema };
-
-export default DepartmentsModel;
+export default DepartmentsSchema;

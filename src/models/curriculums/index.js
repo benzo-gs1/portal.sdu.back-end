@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema } from "mongoose";
 import models from "@/models/names";
 import createSchemaRef from "@/utils/createSchemaRef";
 
@@ -36,8 +36,4 @@ const CurriculumsSchema = new Schema({
   },
 });
 
-const CurriculumsModel = model(models.curriculums, CurriculumsSchema);
-
-export { CurriculumsSchema };
-
-export default CurriculumsModel;
+export default CurriculumsSchema;
