@@ -1,9 +1,10 @@
 import { Router } from "express";
 import TokenService from "@/services/token";
+import middleware from "@/middleware";
 
 const router = Router();
 
-router.post("/generate", (req, res) => {
+router.post("/generate", middleware.publicApi(), (req, res) => {
   const token = TokenService.create(req.body);
 
   if (token) {
@@ -12,21 +13,12 @@ router.post("/generate", (req, res) => {
   return res.status(400).send({ error: "payload required" });
 });
 
-router.get("/validate", (req, res) => {
+router.get("/validate", middleware.publicApi(), (req, res) => {
   const token = TokenService.bearerParser(req.headers["authorization"]);
   const result = TokenService.validate(token);
 
   if (result) return res.status(200).send(result);
   return res.sendStatus(406);
 });
-
-const options = {
-  isTest: true,
-  tokenCheck: false,
-  ipCheck: false,
-  roleCheck: false,
-};
-
-export { options };
 
 export default router;
