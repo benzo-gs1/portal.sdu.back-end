@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import models from "@/models/names";
 import createSchemaRef from "@/utils/createSchemaRef";
 
-const Departments = new Schema({
+const DepartmentsSchema = new Schema({
   code: {
     type: String,
     required: true,
@@ -13,5 +13,8 @@ const Departments = new Schema({
   managers: [createSchemaRef(models.users)],
 });
 
-const DepartmentsModel = model(models.departments, Departments);
+const DepartmentsModel = model(models.departments, DepartmentsSchema);
+
+export { DepartmentsSchema };
+
 export default DepartmentsModel;

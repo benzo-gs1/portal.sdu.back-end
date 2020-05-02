@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import models from "@/models/names";
 import createSchemaRef from "@/utils/createSchemaRef";
 
-const Courses = new Schema({
+const CoursesSchema = new Schema({
   code: {
     type: String,
     required: true,
@@ -33,6 +33,8 @@ const Courses = new Schema({
   },
 });
 
-const CoursesModel = model(models.courses, Courses);
+const CoursesModel = model(models.courses, CoursesSchema);
+
+export { CoursesSchema };
 
 export default CoursesModel;

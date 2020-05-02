@@ -1,10 +1,12 @@
 import { Schema, model } from "mongoose";
 import models from "@/models/names";
 
-const Faculties = new Schema({
+const FacultiesSchema = new Schema({
   title: Object,
 });
 
-const FacultiesModel = model(models.faculties, Faculties);
+const FacultiesModel = model(models.faculties, FacultiesSchema);
+
+export { FacultiesSchema };
 
 export default FacultiesModel;

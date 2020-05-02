@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import models from "@/models/names";
 import createSchemaRef from "@/utils/createSchemaRef";
 
-const Users = new Schema({
+const UsersSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -28,6 +28,8 @@ const Users = new Schema({
   curriculum: createSchemaRef(models.curriculums),
 });
 
-const UsersModel = model(models.users, Users);
+const UsersModel = model(models.users, UsersSchema);
+
+export { UsersSchema };
 
 export default UsersModel;

@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import models from "@/models/names";
 import createSchemaRef from "@/utils/createSchemaRef";
 
-const Curriculums = new Schema({
+const CurriculumsSchema = new Schema({
   semesters: [
     {
       index: Number,
@@ -36,6 +36,8 @@ const Curriculums = new Schema({
   },
 });
 
-const CurriculumsModel = model(models.curriculums, Curriculums);
+const CurriculumsModel = model(models.curriculums, CurriculumsSchema);
+
+export { CurriculumsSchema };
 
 export default CurriculumsModel;
