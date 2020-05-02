@@ -28,9 +28,9 @@ export default async function collector(origin, router = Router(), root = origin
         new RegExp(i, "ig").test(pathToItem)
       );
 
-      if (!isIgnoring) {
-        router.use(sliced, require(join(base, item)).default);
-      }
+      if (config.isProduction && isIgnoring) return;
+
+      router.use(sliced, require(join(base, item)).default);
     }
   });
 
