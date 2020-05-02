@@ -4,18 +4,16 @@ import Logger from "@/services/logger";
 
 class TokenService {
   /**
-   * @description Creating user access token. Ip address, role level and username must be passed as data
+   * @description Creating user access token.
    *
    * @returns signed jwt token or false in case of error
    */
   static create(data, lifeTime = "1h") {
     try {
-      if (data.ip && data.role_level && data.username) {
-        return jwt.sign(data, config.secretKey, {
-          expiresIn: lifeTime,
-          algorithm: config.secretAlgorithm,
-        });
-      }
+      return jwt.sign(data, config.secretKey, {
+        expiresIn: lifeTime,
+        algorithm: config.secretAlgorithm,
+      });
     } catch (err) {
       Logger.error("Token Service", err);
       return false;

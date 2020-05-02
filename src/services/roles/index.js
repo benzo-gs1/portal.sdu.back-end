@@ -1,21 +1,34 @@
-import roles from "./roles";
+import student from "./roles/student";
 
 /**
- * Levels of security: token, ip, role_level, username
+ * Roles
  *
- * First, verify token
- * Next, verify request was sent from the same id as encapsulated in token
- * Next, verify that route is accessible for the given role
- * Next, verify that the resource is owned by user using his username
+ * @description
+ * Each role is defined by level and title. Role contains information of what modules to load on application and what routes it has access to.
  *
- * RolesService will give IP address and role level verification
+ * @tutorial actions - Place accessible routes to actions without "/api" prefix. e.g. api/some/route -> /some/route
+ * @tutorial modules - Place structure of modules that needs to be loaded in client's app
+ * @tutorial extends - list of roles from what to extend actions
  */
-class RolesService {
-  static containsAction(routePath, role_level) {
-    const role = roles[role_level];
-    let allow = false;
+const roles = [student];
 
-    // check role's actions for routePath
+class RolesService {
+  static authorize(role_level, api) {
+    const role = roles[role_level];
+
+    if (role) {
+      for (const action of role.actions) {
+        const regexp = action
+          .replace(/\//g, "\\/")
+          .replace(/\*/g, "([0-9a-z:\\-]*)");
+
+        const test = new RegExp(regexp, "i");
+
+        if (test.test(api)) return true;
+      }
+    }
+
+    return false;
   }
 }
 

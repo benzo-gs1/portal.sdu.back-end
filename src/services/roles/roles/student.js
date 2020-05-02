@@ -1,9 +1,6 @@
-const role = {
-  level: 1,
+export default {
+  level: 0,
   title: "student",
   actions: [],
   modules: {},
-  extends: ["public"],
 };
-
-export default role;
