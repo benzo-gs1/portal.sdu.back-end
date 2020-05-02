@@ -7,6 +7,7 @@ const configs = {
   secretAlgorithm: "HS256",
   secretKey: "default",
   mongodbUri: "",
+  ignoredRoutes: ["test.js"],
 };
 
 export function setConfig(key, value) {

@@ -7,7 +7,7 @@ class Logger {
     } else {
       // dev only
       console.info(
-        `[${this.getCurrentTime()}] -> ${req.method} REQUEST at ${req.path}`
+        `[${this.getCurrentTime()}] -> ${req.method} REQUEST at ${req.originalUrl}`
       );
     }
   }
@@ -54,11 +54,6 @@ class Logger {
 
   static getCurrentTime() {
     return new Date().toLocaleString();
-  }
-
-  static middle(req, res, next) {
-    Logger.route(req);
-    next();
   }
 }
 

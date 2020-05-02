@@ -7,7 +7,12 @@ const router = Router();
 router.post("/create", middleware.publicApi(), async (req, res) => {
   const result = await UsersService.create(req.body);
 
-  return res.status(result.status ? 200 : 406).send(result);
+  if (result.status) return res.status(200).send(status);
+
+  return res.status(400).send({
+    status: false,
+    message: result.error,
+  });
 });
 
 export default router;
