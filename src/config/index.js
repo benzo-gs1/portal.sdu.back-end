@@ -5,9 +5,10 @@ const configs = {
   port: 3000,
   isProduction: false,
   secretAlgorithm: "HS256",
-  secretKey: "default",
+  secretKey: "",
   mongodbUri: "",
   ignoredRoutes: ["test.js"],
+  isTesting: process.argv[1]?.includes("mocha"),
 };
 
 export function setConfig(key, value) {
