@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import config from "../src/config";
-import { init, setConfig } from "../src/config";
+import config from "@/config";
+import { init, setConfig } from "@/config";
 
 // test in production
 const isProduction = process.argv[2] === "--production";
