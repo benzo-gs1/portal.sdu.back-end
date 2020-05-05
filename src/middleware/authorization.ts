@@ -1,9 +1,11 @@
 import TokenService from "@/services/token";
 import RolesService from "@/services/roles";
+import { Response, NextFunction } from "express";
+import { IRequestWithToken } from "@/@types/IRequestWithToken";
 
 export default () => {
-  return (req, res, next) => {
-    const parsed = TokenService.bearerParser(req.headers);
+  return (req: IRequestWithToken, res: Response, next: NextFunction) => {
+    const parsed = TokenService.bearerParser(req);
 
     // has token
     if (parsed) {

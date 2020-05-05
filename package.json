@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/benzo-gs1/portal.sdu.back-end#readme",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.3.9",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",

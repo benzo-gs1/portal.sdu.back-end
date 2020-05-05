@@ -10,17 +10,15 @@ import student from "./roles/student";
  * @tutorial modules - Place structure of modules that needs to be loaded in client's app
  * @tutorial extends - list of roles from what to extend actions
  */
-const roles = [student];
+const roles: IRole[] = [student];
 
 class RolesService {
-  static authorize(role_level, api) {
+  static authorize(role_level: number, api: string): boolean {
     const role = roles[role_level];
 
     if (role) {
       for (const action of role.actions) {
-        const regexp = action
-          .replace(/\//g, "\\/")
-          .replace(/\*/g, "([0-9a-z:\\-]*)");
+        const regexp = action.replace(/\//g, "\\/").replace(/\*/g, "([0-9a-z:\\-]*)");
 
         const test = new RegExp(regexp, "i");
 
