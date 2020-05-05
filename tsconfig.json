@@ -1,18 +1,30 @@
 {
   "compilerOptions": {
+    // build settings
     "outDir": "./build",
-    "allowJs": true,
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "module": "CommonJS",
+    "sourceMap": true,
     "target": "ES5",
+    "noEmit": true,
+
+    // js settings
+    "allowJs": true,
+    "checkJs": true,
+
+    // checking rules
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "noEmit": true,
     "strict": true,
-    "moduleResolution": "node",
-    "rootDir": "./src",
-    "module": "CommonJS",
-    "sourceMap": true
+
+    // path resolving
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*"]
 }
