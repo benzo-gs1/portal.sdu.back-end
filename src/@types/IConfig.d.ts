@@ -1,4 +1,5 @@
 import { Server } from "http";
+import { IConnection } from "./IConnection";
 
 declare interface IConfig {
   port: number;
@@ -6,6 +7,7 @@ declare interface IConfig {
   secretAlgorithm: string;
   secretKey: string;
   mongodbUri: string;
+  mongoConnection?: IConnection;
   ignoredRoutes: string[];
   server?: Server;
   isTesting?: boolean;

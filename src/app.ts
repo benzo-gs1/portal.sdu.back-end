@@ -8,15 +8,14 @@ import Logger from "@/services/logger";
  * Initializing configurations & loaders
  */
 async function main(args: string[]): Promise<void> {
-  const { app } = await Loaders.init(args);
+  const { app, connection } = await Loaders.init(args);
 
   const server = app.listen(config.port, () =>
     Logger.log(`Server started at port ${config.port}`)
   );
 
-  // TODO
-  // set server to config
   config.setConfig("server", server);
+  config.setConfig("mongoConnection", connection);
 }
 
 main(process.argv);
