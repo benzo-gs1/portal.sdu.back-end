@@ -4,12 +4,14 @@
   "description": "SDU's portal back-end part",
   "main": "src/app.js",
   "scripts": {
-    "start:dev": "nodemon --exec babel-node src/app.js",
-    "start:prod": "node dist/app.js",
+    "start:dev": "nodemon --exec babel-node ./src/app.js",
+    "start:prod": "node ./build/app.js",
     "test:dev": "mocha --require @babel/register --check-leaks --inline-diffs",
     "test:prod": "mocha --production --require @babel/register --check-leaks --inline-diffs",
-    "build:build": "babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'",
-    "build:check": "tsc -p ."
+    "test": "mocha --require @babel/register --check-leaks --inline-diffs",
+    "build:run": "babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'",
+    "build:check": "tsc -p .",
+    "build": "tsc -p . && babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "@babel/node": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.9.6",
+    "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/register": "^7.9.0",

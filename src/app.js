@@ -14,8 +14,8 @@ async function main(args) {
     Logger.log(`Server started at port ${config.port}`)
   );
 
-  configs.server = server;
-  configs.connection = connection;
+  // TODO
+  // set server to config
 }
 
 main(process.argv);
