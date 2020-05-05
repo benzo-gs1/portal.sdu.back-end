@@ -7,7 +7,7 @@ import Logger from "@/services/logger";
  *
  * @param ignore - array of ignored folders or files
  */
-export default async function collector(ignore = []) {
+export default function collector(ignore = []) {
   try {
     const base = join(__dirname, "../services");
     const services = readdirSync(base);

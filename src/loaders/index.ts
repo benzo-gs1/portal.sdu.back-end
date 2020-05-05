@@ -2,18 +2,18 @@ import routeCollector from "./route-collector";
 import serviceCollector from "./service-collector";
 import expressLoader from "./express-loader";
 import pipe from "@/pipe";
-import events from "@/pipe/names";
 import { logger } from "@/middleware";
 import Logger from "@/services/logger";
 import { init as pipeInit } from "@/pipe";
-import { init as configsInit } from "@/config";
+import config from "@/config";
 import { init as dbInit } from "./db-loader";
+import { IConnection } from "@/@types/IConnection";
 
 export default class Loaders {
-  static async init(args) {
+  static async init(args: string[]) {
     // initializing configs
     Logger.log("Configs initializing....");
-    configsInit();
+    config.init();
     Logger.log("Configs Done");
 
     // initializing event-pipe
@@ -21,26 +21,26 @@ export default class Loaders {
     pipeInit();
     Logger.log("EventPipe Done");
 
-    pipe.emit(events.server.setup);
+    pipe.emit(EventNames.SERVER_SETUP);
 
     // initializing mongodb connection
     Logger.log("MongoDB initializing....");
-    const connection = await dbInit();
+    const connection: IConnection = await dbInit();
     Logger.log("MongoDB Done");
 
     // initializing express & middleware plugins
     Logger.log("Express initializing....");
-    const app = await expressLoader();
+    const app = expressLoader();
     Logger.log("Express Done");
 
     // collecting services
     Logger.log("Services initializing....");
-    await serviceCollector();
+    serviceCollector();
     Logger.log("Services Done");
 
     // collecting routes
     Logger.log("Routes initializing....");
-    app.use("/api", logger(), await routeCollector("routes"));
+    app.use("/api", logger(), routeCollector("routes"));
     Logger.log("Routes Done");
 
     return { app, connection };

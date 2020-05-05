@@ -4,7 +4,7 @@ import * as cookieParser from "cookie-parser";
 import * as helmet from "helmet";
 import * as requestIp from "request-ip";
 
-export default async () => {
+export default () => {
   const app = express();
 
   app.use(helmet());

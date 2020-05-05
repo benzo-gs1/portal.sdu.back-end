@@ -12,11 +12,7 @@ import config from "@/config";
  *
  * @returns express.Router containing all the routes from given origin
  */
-export default async function collector(
-  origin: string,
-  router = Router(),
-  root = origin
-) {
+export default function collector(origin: string, router = Router(), root = origin) {
   const base = join(__dirname, "../", origin);
   const items = readdirSync(base);
 
