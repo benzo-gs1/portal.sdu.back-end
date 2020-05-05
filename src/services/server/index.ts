@@ -2,6 +2,7 @@ import pipe from "@/pipe";
 import config from "@/config";
 import Logger from "@/services/logger";
 import { Server } from "http";
+import { EventNames } from "@/@types";
 
 class ServerService {
   static closeServer(server: Server) {

@@ -1,7 +1,7 @@
 import TokenService from "@/services/token";
 import RolesService from "@/services/roles";
 import { Response, NextFunction } from "express";
-import { IRequestWithToken } from "@/@types/IRequestWithToken";
+import { IRequestWithToken } from "@/@types";
 
 export default () => {
   return (req: IRequestWithToken, res: Response, next: NextFunction) => {

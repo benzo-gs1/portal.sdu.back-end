@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import config from "@/config";
 import pipe from "@/pipe";
-import { EventNames } from "@/@types/EventNames";
+import { EventNames } from "@/@types";
 
 export async function init() {
   if (!config.isTesting) {

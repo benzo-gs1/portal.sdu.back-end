@@ -2,6 +2,7 @@ import * as jwt from "jsonwebtoken";
 import config from "@/config";
 import Logger from "@/services/logger";
 import { Request } from "express";
+import { ITokenData } from "@/@types";
 
 class TokenService {
   /**

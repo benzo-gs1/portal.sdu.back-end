@@ -7,7 +7,7 @@ import Logger from "@/services/logger";
 import { init as pipeInit } from "@/pipe";
 import config from "@/config";
 import { init as dbInit } from "./db-loader";
-import { IConnection } from "@/@types/IConnection";
+import { IConnection, EventNames } from "@/@types";
 
 export default class Loaders {
   static async init(args: string[]) {

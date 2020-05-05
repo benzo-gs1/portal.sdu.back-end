@@ -1,4 +1,5 @@
 import student from "./roles/student";
+import { IRole } from "@/@types";
 
 /**
  * Roles

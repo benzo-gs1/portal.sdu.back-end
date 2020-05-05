@@ -1,5 +1,6 @@
 import config from "@/config";
 import { Request } from "express";
+import { EventNames } from "@/@types";
 
 class Logger {
   static route(req: Request): void {

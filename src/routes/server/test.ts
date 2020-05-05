@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import pipe from "@/pipe";
 import middleware from "@/middleware";
+import { EventNames } from "@/@types";
 
 const router = Router();
 

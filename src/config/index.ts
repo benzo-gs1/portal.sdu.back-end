@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import Logger from "@/services/logger";
-import { IConfig } from "@/@types/IConfig";
+import { IConfig } from "@/@types";
 
 function setConfig(key: string, value: any) {
   if (key && value) {
