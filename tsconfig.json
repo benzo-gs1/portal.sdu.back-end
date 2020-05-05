@@ -10,7 +10,9 @@
     "noEmit": true,
     "strict": true,
     "moduleResolution": "node",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "module": "CommonJS",
+    "sourceMap": true
   },
   "include": ["./src/**/*"]
 }
