@@ -1,8 +1,8 @@
-import * as express from "express";
+import express from "express";
 import { json } from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as helmet from "helmet";
-import * as requestIp from "request-ip";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import requestIp from "request-ip";
 
 export default () => {
   const app = express();

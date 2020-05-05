@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 
 class CryptoService {
   static validatePasswords(data: string, encrypted: string) {

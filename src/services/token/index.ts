@@ -1,4 +1,4 @@
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import config from "@/config";
 import Logger from "@/services/logger";
 import { Request } from "express";
