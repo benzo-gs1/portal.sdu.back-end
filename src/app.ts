@@ -1,5 +1,5 @@
-import config from "./config";
-import Loaders from "./loaders";
+import config from "@/config";
+import Loaders from "@/loaders";
 import Logger from "@/services/logger";
 
 /**
@@ -7,8 +7,8 @@ import Logger from "@/services/logger";
  *
  * Initializing configurations & loaders
  */
-async function main(args) {
-  const { app, connection } = await Loaders.init(args);
+async function main(args: string[]): Promise<void> {
+  const { app } = await Loaders.init(args);
 
   const server = app.listen(config.port, () =>
     Logger.log(`Server started at port ${config.port}`)
@@ -16,6 +16,7 @@ async function main(args) {
 
   // TODO
   // set server to config
+  config.setConfig("server", server);
 }
 
 main(process.argv);

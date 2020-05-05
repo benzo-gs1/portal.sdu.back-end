@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config from "@/config";
+import configs from "@/config";
 import Logger from "@/services/logger";
 
 class TokenService {
@@ -10,9 +10,9 @@ class TokenService {
    */
   static create(data, lifeTime = "1h") {
     try {
-      return jwt.sign(data, config.secretKey, {
+      return jwt.sign(data, configs.secretKey, {
         expiresIn: lifeTime,
-        algorithm: config.secretAlgorithm,
+        algorithm: configs.secretAlgorithm,
       });
     } catch (err) {
       Logger.error("Token Service", err);
@@ -27,7 +27,7 @@ class TokenService {
    */
   static validate(token) {
     try {
-      return jwt.verify(token, config.secretKey);
+      return jwt.verify(token, configs.secretKey);
     } catch (err) {
       Logger.error("Token Service", err);
       return false;

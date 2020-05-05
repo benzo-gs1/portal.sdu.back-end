@@ -1,5 +1,5 @@
 import pipe from "@/pipe";
-import config from "@/config";
+import configs from "@/config";
 import Logger from "@/services/logger";
 import events from "@/pipe/names";
 
@@ -11,7 +11,7 @@ class ServerService {
 
 pipe.on(events.server.close, () => {
   Logger.handled(events.server.close, "Server Service", "closing server...");
-  ServerService.closeServer(config.server);
+  ServerService.closeServer(configs.server);
 });
 
 export default ServerService;

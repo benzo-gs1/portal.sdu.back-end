@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 import Logger from "@/services/logger";
-import config from "@/config";
+import configs from "@/config";
 
 const pipe = new EventEmitter2({
   wildcard: true,
@@ -8,7 +8,7 @@ const pipe = new EventEmitter2({
 });
 
 // For development purposes
-if (!config.isProduction) global.pipe = pipe;
+if (!configs.isProduction) global.pipe = pipe;
 
 export function init() {
   pipe.on("**", function () {

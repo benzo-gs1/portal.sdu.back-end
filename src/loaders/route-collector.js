@@ -1,7 +1,7 @@
 import { readdirSync, statSync } from "fs";
 import { join } from "path";
 import { Router } from "express";
-import config from "@/config";
+import configs from "@/config";
 
 /**
  * Collects the routes from @origin directory
@@ -24,11 +24,11 @@ export default async function collector(origin, router = Router(), root = origin
     if (status.isDirectory()) collector(pathToItem, router, root);
     else if (status.isFile()) {
       const sliced = origin.replace(root, "");
-      const isIgnoring = config.ignoredRoutes.find((i) =>
+      const isIgnoring = configs.ignoredRoutes.find((i) =>
         new RegExp(i, "ig").test(pathToItem)
       );
 
-      if (config.isProduction && isIgnoring) return;
+      if (configs.isProduction && isIgnoring) return;
 
       router.use(sliced, require(join(base, item)).default);
     }

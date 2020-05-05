@@ -21,7 +21,7 @@
     "strict": true,
 
     // path resolving
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

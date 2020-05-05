@@ -1,8 +1,8 @@
-import config from "@/config";
+import configs from "@/config";
 
 class Logger {
   static route(req) {
-    if (config.isProduction) {
+    if (configs.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -13,7 +13,7 @@ class Logger {
   }
 
   static fired(name) {
-    if (config.isProduction) {
+    if (configs.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -22,7 +22,7 @@ class Logger {
   }
 
   static handled(name, who, message) {
-    if (config.isProduction) {
+    if (configs.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -33,18 +33,16 @@ class Logger {
   }
 
   static error(who, message) {
-    if (config.isProduction) {
+    if (configs.isProduction) {
       // send task to job queue
     } else {
       // dev only
-      console.error(
-        `[${this.getCurrentTime()}] -> ERROR at ${who}\nMessage: ${message}`
-      );
+      console.error(`[${this.getCurrentTime()}] -> ERROR at ${who}\nMessage: ${message}`);
     }
   }
 
   static log(message) {
-    if (config.isProduction) {
+    if (configs.isProduction) {
       // send task to job queue
     } else {
       // dev only
