@@ -2,13 +2,13 @@ import { Server } from "http";
 import { Request } from "express";
 import { Connection } from "mongoose";
 
-export const enum EventNames {
+export enum EventNames {
   SERVER_CLOSE = "server::close",
   SERVER_SETUP = "server::setup",
   MONGO_CONNECTED = "mongo::connected",
 }
 
-export const enum ModelNames {
+export enum ModelNames {
   COURSES = "courses",
   CURRICULUMS = "curriculum",
   DEPARTMENTS = "departments",

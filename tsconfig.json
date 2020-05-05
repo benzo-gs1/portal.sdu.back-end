@@ -4,10 +4,10 @@
     "outDir": "./build",
     "moduleResolution": "node",
     "rootDir": "./src",
-    "module": "CommonJS",
     "sourceMap": true,
     "target": "ES5",
     "noEmit": true,
+    "esModuleInterop": true,
 
     // js settings
     "allowJs": true,
@@ -19,6 +19,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strict": true,
+    "removeComments": true,
 
     // path resolving
     "baseUrl": ".",
