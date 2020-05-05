@@ -1,21 +1,20 @@
 import { expect } from "chai";
 import config from "@/config";
-import { init, setConfig } from "@/config";
 
 // test in production
-const isProduction = process.argv[2] === "--production";
+const isProduction: boolean = process.argv[2] === "--production";
 
 describe("Configurations", function () {
   // 10ms consider as slow
   this.slow(10);
 
   beforeEach(function () {
-    init();
+    config.init();
   });
 
   describe("#setConfig()", function () {
     it("must set config property", function () {
-      setConfig("test", 5);
+      config.setConfig("test", 5);
       expect(config.test).to.be.equal(5);
     });
   });

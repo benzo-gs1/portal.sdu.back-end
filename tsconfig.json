@@ -3,7 +3,7 @@
     // build settings
     "outDir": "./build",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDirs": ["./src", "./test"],
     "sourceMap": true,
     "target": "ES5",
     "noEmit": true,
@@ -27,5 +27,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./test/**/*"]
 }
