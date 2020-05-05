@@ -1,7 +1,7 @@
 import { readdirSync, statSync } from "fs";
 import { join } from "path";
 import { Router } from "express";
-import configs from "@/config";
+import config from "@/config";
 
 /**
  * Collects the routes from @origin directory
@@ -12,7 +12,11 @@ import configs from "@/config";
  *
  * @returns express.Router containing all the routes from given origin
  */
-export default async function collector(origin, router = Router(), root = origin) {
+export default async function collector(
+  origin: string,
+  router = Router(),
+  root = origin
+) {
   const base = join(__dirname, "../", origin);
   const items = readdirSync(base);
 
@@ -24,13 +28,13 @@ export default async function collector(origin, router = Router(), root = origin
     if (status.isDirectory()) collector(pathToItem, router, root);
     else if (status.isFile()) {
       const sliced = origin.replace(root, "");
-      const isIgnoring = configs.ignoredRoutes.find((i) =>
+      const isIgnoring = config.ignoredRoutes.find((i) =>
         new RegExp(i, "ig").test(pathToItem)
       );
 
-      if (configs.isProduction && isIgnoring) return;
+      if (config.isProduction && isIgnoring) return;
 
-      router.use(sliced, require(join(base, item)).default);
+      router.use(sliced, require(join(base, item)).default as Router);
     }
   });
 
