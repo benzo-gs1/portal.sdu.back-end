@@ -1,8 +1,9 @@
-import configs from "@/config";
+import config from "@/config";
+import { Request } from "express";
 
 class Logger {
-  static route(req) {
-    if (configs.isProduction) {
+  static route(req: Request): void {
+    if (config.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -12,8 +13,8 @@ class Logger {
     }
   }
 
-  static fired(name) {
-    if (configs.isProduction) {
+  static fired(name: EventNames): void {
+    if (config.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -21,19 +22,19 @@ class Logger {
     }
   }
 
-  static handled(name, who, message) {
-    if (configs.isProduction) {
+  static handled(name: EventNames, who: string, message: string): void {
+    if (config.isProduction) {
       // send task to job queue
     } else {
       // dev only
       console.info(
-        `[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who} performing: `
+        `[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who} performing: ${message}`
       );
     }
   }
 
-  static error(who, message) {
-    if (configs.isProduction) {
+  static error(who: string, message: string): void {
+    if (config.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -41,8 +42,8 @@ class Logger {
     }
   }
 
-  static log(message) {
-    if (configs.isProduction) {
+  static log(message: string): void {
+    if (config.isProduction) {
       // send task to job queue
     } else {
       // dev only
@@ -50,7 +51,7 @@ class Logger {
     }
   }
 
-  static getCurrentTime() {
+  static getCurrentTime(): string {
     return new Date().toLocaleString();
   }
 }
