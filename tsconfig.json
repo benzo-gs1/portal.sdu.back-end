@@ -12,7 +12,7 @@
 
     // js settings
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
 
     // checking rules
     "noImplicitReturns": true,
