@@ -1,18 +1,9 @@
 import { readdirSync, statSync } from "fs";
 import { join } from "path";
-import { Router } from "express";
-import config from "@/config";
+import { Request, Response, Application } from "express";
+import { RouteDefinition, RouteResponse } from "@/utils";
 
-/**
- * Collects the routes from @origin directory
- *
- * @param origin - directory to collect from
- * @param ignore - array of ignored folders or files
- * @param router - express.Router to be attached with
- *
- * @returns express.Router containing all the routes from given origin
- */
-export default function collector(origin: string, router = Router(), root = origin) {
+function runner(origin: string, controllers: any[] = [], root = origin) {
   const base = join(__dirname, "../", origin);
   const items = readdirSync(base);
 
@@ -21,18 +12,32 @@ export default function collector(origin: string, router = Router(), root = orig
 
     const status = statSync(join(base, item));
 
-    if (status.isDirectory()) collector(pathToItem, router, root);
+    if (status.isDirectory()) runner(pathToItem, controllers, root);
     else if (status.isFile()) {
-      const sliced = origin.replace(root, "");
-      const isIgnoring = config.ignoredRoutes.find((i) =>
-        new RegExp(i, "ig").test(pathToItem)
-      );
-
-      if (config.isProduction && isIgnoring) return;
-
-      router.use(sliced, require(join(base, item)).default as Router);
+      controllers.push(require(join(base, item)).default);
     }
   });
 
-  return router;
+  return controllers;
+}
+
+export default function collector(app: Application) {
+  const controllers = runner("routes");
+  controllers.forEach((controller) => {
+    const instance = new controller();
+    const prefix = Reflect.getMetadata("prefix", controller);
+    const routes: RouteDefinition[] = Reflect.getMetadata("routes", controller);
+
+    routes.forEach((route) => {
+      const path = join("/api", prefix, route.path);
+      console.log(path);
+
+      app[route.requestMethod](path, (req: Request, res: Response) => {
+        const response = instance[route.methodName](req, res) as RouteResponse;
+        const code = response.code;
+        delete response["code"];
+        res.status(code).send(response);
+      });
+    });
+  });
 }

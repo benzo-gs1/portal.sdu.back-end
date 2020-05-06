@@ -1,4 +1,6 @@
 type method = "get" | "post" | "put" | "delete";
+type ResponseData = Object | Array<any>;
+type routeAccess = "public" | "private";
 
 export interface RouteDefinition {
   // Path to our route
@@ -9,14 +11,28 @@ export interface RouteDefinition {
   methodName: string;
 }
 
-export interface RouteResponse {
-  status: boolean;
-  message: string;
-  code: number;
-  [index: string]: Object | Array<any>;
+export class RouteResponse {
+  public status: boolean;
+  public message: string;
+  public code: number;
+  public data?: ResponseData;
+  constructor(message: string, code = 200, status = true) {
+    this.status = status;
+    this.message = "";
+    this.code = code;
+  }
+
+  public static say(message: string, code = 200, status = true) {
+    return new RouteResponse(message, code, status);
+  }
+
+  public send(data: ResponseData) {
+    this.data = data;
+    return this;
+  }
 }
 
-function setRoute(target: Function, http: method, path: string, name: string) {
+function setRoute(target: Object, http: method, path: string, name: string) {
   if (!Reflect.hasMetadata("routes", target.constructor)) {
     Reflect.defineMetadata("routes", [], target.constructor);
   }
@@ -31,27 +47,47 @@ function setRoute(target: Function, http: method, path: string, name: string) {
 }
 
 export function Get(path: string) {
-  return (methodClass: Function, methodName: string) => {
+  return (methodClass: Object, methodName: string) => {
     setRoute(methodClass, "get", path, methodName);
   };
 }
 
 export function Post(path: string) {
-  return (methodClass: Function, methodName: string) => {
+  return (methodClass: Object, methodName: string) => {
     setRoute(methodClass, "post", path, methodName);
   };
 }
 
 export function Put(path: string) {
-  return (methodClass: Function, methodName: string) => {
+  return (methodClass: Object, methodName: string) => {
     setRoute(methodClass, "put", path, methodName);
   };
 }
 
 export function Delete(path: string) {
-  return (methodClass: Function, methodName: string) => {
+  return (methodClass: Object, methodName: string) => {
     setRoute(methodClass, "delete", path, methodName);
   };
+}
+
+export function Public(target: Object, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("public_or_private", "public", target);
+  return descriptor;
+}
+
+export function Private(target: Object, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("public_or_private", "private", target);
+  return descriptor;
+}
+
+export function Protected(target: Object, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("protected", true, target);
+  return descriptor;
+}
+
+export function Test(target: Object, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("test", true, target);
+  return descriptor;
 }
 
 export function Controller(prefix: string): ClassDecorator {

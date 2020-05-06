@@ -30,7 +30,6 @@ const configs: IConfig = {
   secretAlgorithm: "HS256",
   secretKey: "",
   mongodbUri: "",
-  ignoredRoutes: ["test.js"],
   isTesting: process.argv[1]?.includes("mocha"),
   setConfig,
   init,
