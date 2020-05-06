@@ -1,15 +1,13 @@
-import { Router, Request, Response } from "express";
-import middleware from "@/middleware";
+import { Controller, Public, Protected, Post, RouteResponse } from "@/utils";
 
-const router = Router();
-
-router.get(
-  "/validate",
-  middleware.publicApi(),
-  middleware.authorization(),
-  (req: Request, res: Response) => {
-    res.status(200).send({ status: true });
+@Controller("/token")
+class TokenActionsController {
+  @Public
+  @Protected
+  @Post("/validate")
+  public validate(): RouteResponse {
+    return RouteResponse.say("Token Validated");
   }
-);
+}
 
-export default router;
+export default TokenActionsController;

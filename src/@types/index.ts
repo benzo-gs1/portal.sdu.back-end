@@ -28,7 +28,6 @@ export interface IConfig {
   secretKey: string;
   mongodbUri: string;
   mongoConnection?: IConnection;
-  ignoredRoutes: string[];
   server?: Server;
   isTesting?: boolean;
   [index: string]: any;

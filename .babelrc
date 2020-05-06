@@ -8,6 +8,13 @@
         "rootPathSuffix": "./src/"
       }
     ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        // "decoratorsBeforeExport": true,
+        "legacy": true
+      }
+    ],
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread",
     [

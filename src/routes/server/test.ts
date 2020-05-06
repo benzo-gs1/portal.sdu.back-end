@@ -1,13 +1,16 @@
-import { Router, Request, Response } from "express";
 import pipe from "@/pipe";
-import middleware from "@/middleware";
 import { EventNames } from "@/@types";
+import { Controller, Put, RouteResponse, Public, Test } from "@/utils";
 
-const router = Router();
+@Controller("/server/test")
+class ServerTestController {
+  @Test
+  @Public
+  @Put("/kill")
+  public kill(): RouteResponse {
+    pipe.emit(EventNames.SERVER_CLOSE);
+    return RouteResponse.say("Server is closed");
+  }
+}
 
-router.put("/kill", middleware.publicApi(), (req: Request, res: Response) => {
-  pipe.emit(EventNames.SERVER_CLOSE);
-  return res.end();
-});
-
-export default router;
+export default ServerTestController;

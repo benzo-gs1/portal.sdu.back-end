@@ -1,6 +1,13 @@
-POST http://localhost:3000/api/token/generate HTTP/1.1
+POST http://localhost:3000/api/token/test/generate HTTP/1.1
 Content-Type: application/json
 
 {
-  "test": "some-data"
+  "ip": "some-ip",
+  "role_level": 0,
+  "username": "some-name"
 }
+
+###
+
+POST http://localhost:3000/api/token/validate HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpcCI6InNvbWUtaXAiLCJyb2xlX2xldmVsIjowLCJ1c2VybmFtZSI6InNvbWUtbmFtZSIsImlhdCI6MTU4ODc1NzM3MiwiZXhwIjoxNTg4NzYwOTcyfQ.kH1NEHF8FBZ1RzMF_qhE3BTKb5fhSL_7ZkZxkYiaQFQ

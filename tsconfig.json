@@ -8,10 +8,11 @@
     "target": "ES5",
     "noEmit": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
 
     // js settings
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
 
     // checking rules
     "noImplicitReturns": true,
