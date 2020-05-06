@@ -11,7 +11,7 @@ export default function LogOnError(
     try {
       return await originalMethod.apply(this, args);
     } catch (err) {
-      Logger.log(err);
+      Logger.error(target.name, err);
     }
   };
 

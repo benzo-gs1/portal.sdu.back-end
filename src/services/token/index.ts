@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import config from "@/config";
-import Logger from "@/services/logger";
 import { Request } from "express";
 import { ITokenData } from "@/@types";
+import { LogOnError } from "@/utils";
 
 class TokenService {
   /**
@@ -10,16 +10,12 @@ class TokenService {
    *
    * @returns signed jwt token or false in case of error
    */
+  @LogOnError
   static create(data: ITokenData, lifeTime = "1h"): string | false {
-    try {
-      return jwt.sign(data, config.secretKey, {
-        expiresIn: lifeTime,
-        algorithm: config.secretAlgorithm as jwt.Algorithm,
-      });
-    } catch (err) {
-      Logger.error("Token Service", err);
-      return false;
-    }
+    return jwt.sign(data, config.secretKey, {
+      expiresIn: lifeTime,
+      algorithm: config.secretAlgorithm as jwt.Algorithm,
+    });
   }
 
   /**
@@ -27,16 +23,13 @@ class TokenService {
    *
    * @returns encapsulated data or false in case token is invalid
    */
+  @LogOnError
   static validate(token: string): ITokenData | false {
-    try {
-      const data = jwt.verify(token, config.secretKey);
-      return data as ITokenData;
-    } catch (err) {
-      Logger.error("Token Service", err);
-      return false;
-    }
+    const data = jwt.verify(token, config.secretKey);
+    return data as ITokenData;
   }
 
+  @LogOnError
   static bearerParser(req: Request): string | false {
     const header = req.headers.authorization;
 

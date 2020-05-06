@@ -1,5 +1,6 @@
 import student from "./roles/student";
 import { IRole } from "@/@types";
+import { LogOnError } from "@/utils";
 
 /**
  * Roles
@@ -14,6 +15,7 @@ import { IRole } from "@/@types";
 const roles: IRole[] = [student];
 
 class RolesService {
+  @LogOnError
   static authorize(role_level: number, api: string): boolean {
     const role = roles[role_level];
 
