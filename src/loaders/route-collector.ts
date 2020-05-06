@@ -3,6 +3,7 @@ import { join } from "path";
 import { Request, Response, Application } from "express";
 import { RouteDefinition, RouteResponse } from "@/utils";
 import { logger, publicApi, privateApi, authorization } from "@/middleware";
+import config from "@/config";
 
 function runner(origin: string, controllers: any[] = [], root = origin) {
   const base = join(__dirname, "../", origin);
@@ -24,6 +25,7 @@ function runner(origin: string, controllers: any[] = [], root = origin) {
 
 export default function collector(app: Application) {
   const controllers = runner("routes");
+  app.use("/api", logger());
   controllers.forEach((controller) => {
     const instance = new controller();
     const prefix = Reflect.getMetadata("prefix", controller);
@@ -36,7 +38,7 @@ export default function collector(app: Application) {
       const isTest = Reflect.hasMetadata("test", handler)
         ? Reflect.getMetadata("test", handler)
         : false;
-      const access = Reflect.hasMetadata("public_or_private", handler)
+      const accessName = Reflect.hasMetadata("public_or_private", handler)
         ? Reflect.getMetadata("public_or_private", handler)
         : "public";
       const isProtected = Reflect.hasMetadata("protected", handler)
@@ -45,12 +47,21 @@ export default function collector(app: Application) {
 
       const path = join("/api", prefix, route.path);
 
-      app[route.requestMethod](path, (req: Request, res: Response) => {
+      // test routes are skipped in production
+      if (isTest && config.isProduction) return;
+
+      const access = accessName === "private" ? privateApi : publicApi;
+
+      const responseBody = (req: Request, res: Response) => {
         const response = handler(req, res) as RouteResponse;
         const code = response.code;
         delete response["code"];
         res.status(code).send(response);
-      });
+      };
+
+      if (isProtected)
+        app[route.requestMethod](path, access(), authorization(), responseBody);
+      else app[route.requestMethod](path, access(), responseBody);
     });
   });
 }
