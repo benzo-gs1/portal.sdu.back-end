@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import config from "@/config";
 import Loaders from "@/loaders";
 import Logger from "@/services/logger";
