@@ -1,13 +1,20 @@
-import { Router, Request, Response } from "express";
+import { Request } from "express";
 import TokenService from "@/services/token";
-import middleware from "@/middleware";
+import { Controller, RouteResponse, Post, Public } from "@/utils";
 
-const router = Router();
+@Controller("/token/test")
+class TokenTestService {
+  @Public
+  @Post("/generate")
+  public generate(req: Request): RouteResponse {
+    const { ip, role_level, username } = req.body;
 
-router.post("/generate", middleware.publicApi(), (req: Request, res: Response) => {
-  const token = TokenService.create(req.body);
+    if (ip && role_level >= 0 && username)
+      return RouteResponse.say("Success").send({
+        token: TokenService.create({ ip, role_level, username }),
+      });
+    return RouteResponse.deny("Not all data is present");
+  }
+}
 
-  return res.status(200).send({ token });
-});
-
-export default router;
+export default TokenTestService;

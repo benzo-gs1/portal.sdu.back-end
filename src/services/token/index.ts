@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config from "@/config";
 import { Request } from "express";
 import { ITokenData } from "@/@types";
-import { LogOnError } from "@/utils";
+import { LogOnErrorSync } from "@/utils";
 
 class TokenService {
   /**
@@ -10,7 +10,7 @@ class TokenService {
    *
    * @returns signed jwt token or false in case of error
    */
-  @LogOnError
+  @LogOnErrorSync
   static create(data: ITokenData, lifeTime = "1h"): string | false {
     return jwt.sign(data, config.secretKey, {
       expiresIn: lifeTime,
@@ -23,13 +23,13 @@ class TokenService {
    *
    * @returns encapsulated data or false in case token is invalid
    */
-  @LogOnError
+  @LogOnErrorSync
   static validate(token: string): ITokenData | false {
     const data = jwt.verify(token, config.secretKey);
     return data as ITokenData;
   }
 
-  @LogOnError
+  @LogOnErrorSync
   static bearerParser(req: Request): string | false {
     const header = req.headers.authorization;
 

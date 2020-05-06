@@ -4,14 +4,28 @@
   "description": "SDU's portal back-end part",
   "main": "src/app.js",
   "scripts": {
-    "start:dev": "nodemon ./src/app.ts",
+    "start:dev": "nodemon",
     "start:prod": "node ./build/app.js",
+    "start": "node ./build/app.js",
     "test:dev": "mocha -r ./test/babel-register.js --diff ./test/*.ts",
     "test:prod": "mocha --production -r ./test/babel-register.js --diff ./test/*.ts",
     "test": "mocha -r ./test/babel-register.js --diff ./test/*.ts",
     "build:run": "babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'",
     "build:check": "tsc -p .",
     "build": "tsc -p . && babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/app.ts",
+    "ext": "ts, js"
   },
   "repository": {
     "type": "git",
@@ -70,6 +84,7 @@
     "prettier": "^2.0.4",
     "pretty-quick": "^2.0.1",
     "ts-node": "^8.10.1",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   },
   "husky": {

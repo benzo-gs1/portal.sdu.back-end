@@ -2,7 +2,6 @@ import routeCollector from "./route-collector";
 import serviceCollector from "./service-collector";
 import expressLoader from "./express-loader";
 import pipe from "@/pipe";
-import { logger } from "@/middleware";
 import Logger from "@/services/logger";
 import { init as pipeInit } from "@/pipe";
 import config from "@/config";
@@ -40,7 +39,7 @@ export default class Loaders {
 
     // collecting routes
     Logger.log("Routes initializing....");
-    app.use("/api", logger(), routeCollector("routes"));
+    routeCollector(app);
     Logger.log("Routes Done");
 
     return { app, connection };

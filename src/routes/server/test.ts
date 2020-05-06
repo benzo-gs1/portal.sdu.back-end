@@ -7,7 +7,7 @@ class ServerTestController {
   @Test
   @Public
   @Put("/kill")
-  public kill() {
+  public kill(): RouteResponse {
     pipe.emit(EventNames.SERVER_CLOSE);
     return RouteResponse.say("Server is closed");
   }

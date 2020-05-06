@@ -2,6 +2,7 @@ import { readdirSync, statSync } from "fs";
 import { join } from "path";
 import { Request, Response, Application } from "express";
 import { RouteDefinition, RouteResponse } from "@/utils";
+import { logger, publicApi, privateApi, authorization } from "@/middleware";
 
 function runner(origin: string, controllers: any[] = [], root = origin) {
   const base = join(__dirname, "../", origin);
@@ -29,11 +30,23 @@ export default function collector(app: Application) {
     const routes: RouteDefinition[] = Reflect.getMetadata("routes", controller);
 
     routes.forEach((route) => {
+      const handler = instance[route.methodName];
+
+      // middleware metadata
+      const isTest = Reflect.hasMetadata("test", handler)
+        ? Reflect.getMetadata("test", handler)
+        : false;
+      const access = Reflect.hasMetadata("public_or_private", handler)
+        ? Reflect.getMetadata("public_or_private", handler)
+        : "public";
+      const isProtected = Reflect.hasMetadata("protected", handler)
+        ? Reflect.getMetadata("protected", handler)
+        : false;
+
       const path = join("/api", prefix, route.path);
-      console.log(path);
 
       app[route.requestMethod](path, (req: Request, res: Response) => {
-        const response = instance[route.methodName](req, res) as RouteResponse;
+        const response = handler(req, res) as RouteResponse;
         const code = response.code;
         delete response["code"];
         res.status(code).send(response);

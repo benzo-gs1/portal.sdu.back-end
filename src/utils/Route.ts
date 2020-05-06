@@ -1,6 +1,5 @@
 type method = "get" | "post" | "put" | "delete";
 type ResponseData = Object | Array<any>;
-type routeAccess = "public" | "private";
 
 export interface RouteDefinition {
   // Path to our route
@@ -15,19 +14,37 @@ export class RouteResponse {
   public status: boolean;
   public message: string;
   public code: number;
-  public data?: ResponseData;
-  constructor(message: string, code = 200, status = true) {
+  public data: ResponseData;
+  constructor(message: string, code = 200, status = true, data = {}) {
     this.status = status;
-    this.message = "";
+    this.message = message;
     this.code = code;
+    this.data = data;
   }
 
   public static say(message: string, code = 200, status = true) {
     return new RouteResponse(message, code, status);
   }
 
+  public static deny(message: string, code = 400, status = false) {
+    return new RouteResponse(message, code, status);
+  }
+
+  public say(message: string) {
+    this.message = message;
+    return this;
+  }
+
   public send(data: ResponseData) {
     this.data = data;
+    return this;
+  }
+  public http(code: number) {
+    this.code = code;
+    return this;
+  }
+  public stat(status: boolean) {
+    this.status = status;
     return this;
   }
 }
@@ -70,23 +87,23 @@ export function Delete(path: string) {
   };
 }
 
-export function Public(target: Object, key: string, descriptor: PropertyDescriptor) {
-  Reflect.defineMetadata("public_or_private", "public", target);
+export function Public(target: any, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("public_or_private", "public", target[key]);
   return descriptor;
 }
 
-export function Private(target: Object, key: string, descriptor: PropertyDescriptor) {
-  Reflect.defineMetadata("public_or_private", "private", target);
+export function Private(target: any, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("public_or_private", "private", target[key]);
   return descriptor;
 }
 
-export function Protected(target: Object, key: string, descriptor: PropertyDescriptor) {
-  Reflect.defineMetadata("protected", true, target);
+export function Protected(target: any, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("protected", true, target[key]);
   return descriptor;
 }
 
-export function Test(target: Object, key: string, descriptor: PropertyDescriptor) {
-  Reflect.defineMetadata("test", true, target);
+export function Test(target: any, key: string, descriptor: PropertyDescriptor) {
+  Reflect.defineMetadata("test", true, target[key]);
   return descriptor;
 }
 

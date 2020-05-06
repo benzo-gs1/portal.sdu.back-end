@@ -1,5 +1,5 @@
 import createSchemaRef from "./createSchemaRef";
-import LogOnError from "./LogOnError";
+import { LogOnError, LogOnErrorSync } from "./LogOnError";
 import {
   Controller,
   Test,
@@ -17,6 +17,7 @@ import {
 export {
   createSchemaRef,
   LogOnError,
+  LogOnErrorSync,
   Controller,
   Test,
   Public,
