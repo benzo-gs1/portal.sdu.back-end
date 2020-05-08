@@ -25,7 +25,8 @@ function runner(origin: string, controllers: any[] = [], root = origin) {
 
 export default function collector(app: Application) {
   const controllers = runner("routes");
-  app.use("/api", logger());
+  if (!config.isTesting) app.use("/api", logger());
+
   controllers.forEach((controller) => {
     const instance = new controller();
     const prefix = Reflect.getMetadata("prefix", controller);

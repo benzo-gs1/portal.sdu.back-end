@@ -8,8 +8,9 @@ describe("Configurations", function () {
   // 10ms consider as slow
   this.slow(10);
 
-  beforeEach(function () {
+  this.beforeAll(function () {
     config.init();
+    config.isTesting = true;
   });
 
   describe("#setConfig()", function () {
@@ -30,13 +31,5 @@ describe("Configurations", function () {
 
   it("must have mongodbURI defined", function () {
     expect(config.mongodbUri).not.to.be.undefined;
-  });
-
-  it("must have ignoredRoutes defined", function () {
-    expect(config.ignoredRoutes).not.to.be.undefined;
-  });
-
-  it("must have test.js as ignored route", function () {
-    expect(config.ignoredRoutes).contain("test.js");
   });
 });
