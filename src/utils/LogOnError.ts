@@ -12,6 +12,7 @@ export function LogOnError(
       return await originalMethod.apply(this, args);
     } catch (err) {
       Logger.error(target.name, err);
+      return false;
     }
   };
 
@@ -30,6 +31,7 @@ export function LogOnErrorSync(
       return originalMethod.apply(this, args);
     } catch (err) {
       Logger.error(target.name, err);
+      return false;
     }
   };
 

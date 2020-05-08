@@ -6,13 +6,13 @@
   "scripts": {
     "start:dev": "nodemon",
     "start:prod": "node ./build/app.js",
-    "start": "node ./build/app.js",
+    "start": "yarn start:prod",
     "test:dev": "mocha -r ./test/babel-register.js --diff ./test/*.ts",
     "test:prod": "mocha --production -r ./test/babel-register.js --diff ./test/*.ts",
-    "test": "mocha -r ./test/babel-register.js --diff ./test/*.ts",
+    "test": "yarn test:dev",
     "build:run": "babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'",
     "build:check": "tsc -p .",
-    "build": "tsc -p . && babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'"
+    "build": "yarn build:check && yarn build:run"
   },
   "nodemonConfig": {
     "ignore": [
@@ -33,13 +33,12 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/benzo-gs1/portal.sdu.back-end/issues"
   },
   "homepage": "https://github.com/benzo-gs1/portal.sdu.back-end#readme",
   "dependencies": {
-    "@types/jsonwebtoken": "^8.3.9",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
@@ -65,6 +64,7 @@
     "@babel/preset-typescript": "^7.9.0",
     "@babel/register": "^7.9.0",
     "@babel/types": "^7.9.6",
+    "@types/jsonwebtoken": "^8.3.9",
     "@types/bcrypt": "^3.0.0",
     "@types/body-parser": "^1.19.0",
     "@types/chai": "^4.2.11",

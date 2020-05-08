@@ -3,10 +3,10 @@ import config from "@/config";
 import Logger from "@/services/logger";
 import { Server } from "http";
 import { EventNames } from "@/@types";
-import { LogOnError } from "@/utils";
+import { LogOnErrorSync } from "@/utils";
 
 class ServerService {
-  @LogOnError
+  @LogOnErrorSync
   static closeServer(server: Server) {
     server?.close();
   }

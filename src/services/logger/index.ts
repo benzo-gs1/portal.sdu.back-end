@@ -14,7 +14,7 @@ class Logger {
     }
   }
 
-  static fired(name: EventNames): void {
+  static fired(name: EventNames | string): void {
     if (config.isProduction) {
       // send task to job queue
     } else {
@@ -29,7 +29,7 @@ class Logger {
     } else {
       // dev only
       console.info(
-        `[${this.getCurrentTime()}] -> ${name} EVENT handled by ${who} performing: ${message}`
+        `[${this.getCurrentTime()}] -> ${name} EVENT handled | ${who} is: ${message}`
       );
     }
   }

@@ -8,7 +8,7 @@ const pipe = new EventEmitter2({
 
 export function init() {
   pipe.on("**", function (this: any) {
-    Logger.fired(this?.event);
+    Logger.fired(this?.event as string);
   });
 }
 
