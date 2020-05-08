@@ -11,10 +11,12 @@ let app: Application;
 let server: Server;
 let point: string;
 
-// TODO `describe` exact middleware functions
-describe("Middleware", function () {
-  this.slow(120);
+const slow = {
+  protected: 80,
+  test: 40,
+};
 
+describe("Middleware", function () {
   this.beforeAll(function () {
     // initializing configs
     config.init();
@@ -31,44 +33,49 @@ describe("Middleware", function () {
     point = `http://localhost:${config.port}/api/token/validate`;
   });
 
-  it("should send 401 response with status false when no token present", function (done) {
-    axios
-      .post(point)
-      .then(() => done("Error"))
-      .catch((err) => {
-        expect(err.response.status).to.be.equal(401);
-        expect(err.response.data?.status).to.be.false;
-        done();
-      });
+  describe("@Protected", function () {
+    this.slow(slow.protected);
+
+    it("should send 401 response with status false when no token present", function (done) {
+      axios
+        .post(point)
+        .then(() => done("Error"))
+        .catch((err) => {
+          expect(err.response.status).to.be.equal(401);
+          expect(err.response.data?.status).to.be.false;
+          done();
+        });
+    });
+
+    it("should send 403 response with status false when token is not valid", function (done) {
+      const options = {
+        headers: {
+          Authorization: "Bearer fake.token.really",
+        },
+      };
+      axios
+        .post(point, {}, options)
+        .then(() => done("Error"))
+        .catch((err) => {
+          expect(err.response.status).to.be.equal(403);
+          expect(err.response.data?.status).to.be.false;
+          done();
+        });
+    });
   });
 
-  it("should send 403 response with status false when token is not valid", function (done) {
-    axios
-      .post(
-        point,
-        {},
-        {
-          headers: {
-            Authorization: "Bearer fake.token.really",
-          },
-        }
-      )
-      .then(() => done("Error"))
-      .catch((err) => {
-        expect(err.response.status).to.be.equal(403);
-        expect(err.response.data?.status).to.be.false;
-        done();
-      });
-  });
+  describe("@Test", function () {
+    this.slow(slow.test);
 
-  it("should not collect @Test annotations, so 404 will return", function (done) {
-    axios
-      .post(`http://localhost:${config.port}/api/token/test/generate`)
-      .then(() => done("Error"))
-      .catch((err) => {
-        expect(err.response.status).to.be.equal(404);
-        done();
-      });
+    it("should not collect in production, so 404 will return", function (done) {
+      axios
+        .post(`http://localhost:${config.port}/api/token/test/generate`)
+        .then(() => done("Error"))
+        .catch((err) => {
+          expect(err.response.status).to.be.equal(404);
+          done();
+        });
+    });
   });
 
   this.afterAll(function () {
