@@ -2,16 +2,28 @@ import CryptoService from "@/services/crypto";
 import { expect } from "chai";
 
 const password = "super secret";
+let encrypted: string;
 
-// TODO describe exact functions
+const slow = {
+  hashPasswords: 80,
+  validate: 80,
+};
+
 describe("Crypto Service", function () {
-  this.slow(100);
-  it("must hash passwords", () => {
-    expect(CryptoService.hashPassword(password)).not.to.be.undefined;
+  describe("#hashPasswords", function () {
+    this.slow(slow.hashPasswords);
+
+    it("must hash passwords", () => {
+      encrypted = CryptoService.hashPassword(password);
+      expect(encrypted).not.to.be.undefined;
+    });
   });
 
-  it("must validate passwords properly", function () {
-    const encrypted = CryptoService.hashPassword(password);
-    expect(CryptoService.validatePasswords(password, encrypted)).to.be.true;
+  describe("#validatePasswords", function () {
+    this.slow(slow.validate);
+
+    it("must validate passwords properly", function () {
+      expect(CryptoService.validatePasswords(password, encrypted)).to.be.true;
+    });
   });
 });
