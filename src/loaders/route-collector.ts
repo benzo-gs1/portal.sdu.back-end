@@ -46,8 +46,6 @@ export default function collector(app: Application) {
         ? Reflect.getMetadata("protected", handler)
         : false;
 
-      console.log(route.methodName, isTest);
-
       const path = join("/api", prefix, route.path);
 
       // test routes are skipped in production
