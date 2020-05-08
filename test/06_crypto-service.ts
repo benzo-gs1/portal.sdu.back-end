@@ -5,8 +5,8 @@ const password = "super secret";
 let encrypted: string;
 
 const slow = {
-  hashPasswords: 80,
-  validate: 80,
+  hashPasswords: 40,
+  validate: 40,
 };
 
 describe("Crypto Service", function () {

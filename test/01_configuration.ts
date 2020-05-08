@@ -4,9 +4,10 @@ import config from "@/config";
 // test in production
 const isProduction: boolean = process.argv[2] === "--production";
 
+const slow = 2;
+
 describe("Configurations", function () {
-  // 10ms consider as slow
-  this.slow(10);
+  this.slow(slow);
 
   this.beforeAll(function () {
     config.init();

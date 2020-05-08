@@ -2,10 +2,12 @@ import { init } from "@/loaders/db-loader";
 import { IConnection } from "@/@types";
 
 let connection: IConnection;
-const timeout = 15000;
+
+const slow = 5000;
+const timeout = slow * 2;
 
 describe("Database loader", function () {
-  this.slow(10000);
+  this.slow(slow);
   this.timeout(timeout);
 
   it("must have connection", function (done) {

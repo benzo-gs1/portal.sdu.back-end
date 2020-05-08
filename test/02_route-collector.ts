@@ -10,8 +10,10 @@ import "reflect-metadata";
 let app: Application;
 let server: Server;
 
+const slow = 120;
+
 describe("Route collector", function () {
-  this.slow(120);
+  this.slow(slow);
 
   this.beforeAll(function () {
     // initializing configs

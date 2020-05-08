@@ -2,8 +2,10 @@ import pipe from "@/pipe";
 import { EventNames } from "@/@types";
 import { expect } from "chai";
 
+const slow = 2;
+
 describe("Event Pipe", function () {
-  this.slow(100);
+  this.slow(slow);
 
   it("must handle the event quickly with values", function (done) {
     pipe.on(EventNames.TEST, function (value) {

@@ -12,8 +12,8 @@ let server: Server;
 let point: string;
 
 const slow = {
-  protected: 80,
-  test: 40,
+  protected: 10,
+  test: 10,
 };
 
 describe("Middleware", function () {

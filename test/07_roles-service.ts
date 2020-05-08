@@ -8,13 +8,13 @@ const EXACT_ROUTE = "/tests/exact/fetch";
 const ANY_ROUTE = "/tests/any/*";
 const BETWEEN_ROUTE = "/tests/between/*/fetch";
 const RANDOM_ROUTE = "some-not-existing-route";
-const slows = {
-  authorize: 40,
+const slow = {
+  authorize: 20,
 };
 
 describe("Roles Service", function () {
   describe("#authorize()", function () {
-    this.slow(slows.authorize);
+    this.slow(slow.authorize);
 
     it("must not pass when role has no actions", () => {
       const isPassing = RolesService.authorize(TEST_ROLE_INDEX, RANDOM_ROUTE);
