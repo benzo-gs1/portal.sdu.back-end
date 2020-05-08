@@ -30,9 +30,7 @@ class TokenService {
   }
 
   @LogOnErrorSync
-  static bearerParser(req: Request): string | false {
-    const header = req.headers.authorization;
-
+  static bearerParser(header: string | undefined): string | false {
     if (header) {
       const bearer = header.split(" ");
       const token = bearer[1];

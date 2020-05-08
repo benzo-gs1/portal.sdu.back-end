@@ -12,7 +12,8 @@
     "test": "yarn test:dev",
     "build:run": "babel ./src --out-dir ./build --extensions '.ts,.tsx,.js'",
     "build:check": "tsc -p .",
-    "build": "yarn build:check && yarn build:run"
+    "build": "yarn build:check && yarn build:run",
+    "kill:debian": "fuser -k -TERM -n tcp 3000"
   },
   "nodemonConfig": {
     "ignore": [
