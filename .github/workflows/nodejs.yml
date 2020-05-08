@@ -18,9 +18,10 @@ jobs:
         node-version: [13.x]
 
     steps:
+    - uses: actions/checkout@v1
     - uses: borales/actions-yarn@v2.0.0
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn build:check
-    - run: yarn test
+    - run: sudo yarn
+    - run: sudo yarn build:check
+    - run: sudo yarn test
