@@ -10,7 +10,7 @@ import "reflect-metadata";
 let app: Application;
 let server: Server;
 
-describe("Routes", function () {
+describe("Route collector", function () {
   this.slow(120);
 
   this.beforeAll(function () {
