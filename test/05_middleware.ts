@@ -11,7 +11,8 @@ let app: Application;
 let server: Server;
 let point: string;
 
-describe("Route collector", function () {
+// TODO `describe` exact middleware functions
+describe("Middleware", function () {
   this.slow(120);
 
   this.beforeAll(function () {

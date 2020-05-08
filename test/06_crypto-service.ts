@@ -3,6 +3,7 @@ import { expect } from "chai";
 
 const password = "super secret";
 
+// TODO describe exact functions
 describe("Crypto Service", function () {
   this.slow(100);
   it("must hash passwords", () => {
