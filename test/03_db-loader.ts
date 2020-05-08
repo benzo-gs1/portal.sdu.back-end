@@ -1,5 +1,4 @@
 import { init } from "@/loaders/db-loader";
-import pipe from "@/pipe";
 import { IConnection } from "@/@types";
 
 let connection: IConnection;

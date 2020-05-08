@@ -1,20 +1,10 @@
 import { Server } from "http";
 import { Request } from "express";
 import { Connection } from "mongoose";
+import { EventNames } from "./EventNames";
+import { ModelNames } from "./ModelNames";
 
-export enum EventNames {
-  SERVER_CLOSE = "server::close",
-  SERVER_SETUP = "server::setup",
-  MONGO_CONNECTED = "mongo::connected",
-}
-
-export enum ModelNames {
-  COURSES = "courses",
-  CURRICULUMS = "curriculum",
-  DEPARTMENTS = "departments",
-  FACULTIES = "faculties",
-  USERS = "users",
-}
+export { EventNames, ModelNames };
 
 export interface IConnection {
   slow: Connection;
