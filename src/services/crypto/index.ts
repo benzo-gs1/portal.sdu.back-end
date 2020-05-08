@@ -1,14 +1,14 @@
 import bcrypt from "bcrypt";
-import { LogOnError } from "@/utils";
+import { LogOnErrorSync } from "@/utils";
 
 class CryptoService {
-  @LogOnError
-  static validatePasswords(data: string, encrypted: string) {
+  @LogOnErrorSync
+  static validatePasswords(data: string, encrypted: string): boolean {
     return bcrypt.compareSync(data, encrypted);
   }
 
-  @LogOnError
-  static hashPassword(p: string) {
+  @LogOnErrorSync
+  static hashPassword(p: string): string {
     return bcrypt.hashSync(p, bcrypt.genSaltSync(8));
   }
 }

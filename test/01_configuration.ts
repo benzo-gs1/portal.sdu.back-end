@@ -4,12 +4,14 @@ import config from "@/config";
 // test in production
 const isProduction: boolean = process.argv[2] === "--production";
 
-describe("Configurations", function () {
-  // 10ms consider as slow
-  this.slow(10);
+const slow = 2;
 
-  beforeEach(function () {
+describe("Configurations", function () {
+  this.slow(slow);
+
+  this.beforeAll(function () {
     config.init();
+    config.isTesting = true;
   });
 
   describe("#setConfig()", function () {
@@ -30,13 +32,5 @@ describe("Configurations", function () {
 
   it("must have mongodbURI defined", function () {
     expect(config.mongodbUri).not.to.be.undefined;
-  });
-
-  it("must have ignoredRoutes defined", function () {
-    expect(config.ignoredRoutes).not.to.be.undefined;
-  });
-
-  it("must have test.js as ignored route", function () {
-    expect(config.ignoredRoutes).contain("test.js");
   });
 });

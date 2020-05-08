@@ -1,9 +1,10 @@
 import { Request } from "express";
 import TokenService from "@/services/token";
-import { Controller, RouteResponse, Post, Public } from "@/utils";
+import { Controller, RouteResponse, Post, Public, Test } from "@/utils";
 
 @Controller("/token/test")
 class TokenTestService {
+  @Test
   @Public
   @Post("/generate")
   public generate(req: Request): RouteResponse {

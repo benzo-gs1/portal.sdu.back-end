@@ -25,7 +25,8 @@ function runner(origin: string, controllers: any[] = [], root = origin) {
 
 export default function collector(app: Application) {
   const controllers = runner("routes");
-  app.use("/api", logger());
+  if (!config.isTesting) app.use("/api", logger());
+
   controllers.forEach((controller) => {
     const instance = new controller();
     const prefix = Reflect.getMetadata("prefix", controller);
@@ -48,7 +49,7 @@ export default function collector(app: Application) {
       const path = join("/api", prefix, route.path);
 
       // test routes are skipped in production
-      if (isTest && config.isProduction) return;
+      if (config.isProduction && isTest) return;
 
       const access = accessName === "private" ? privateApi : publicApi;
 

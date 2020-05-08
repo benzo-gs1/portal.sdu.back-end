@@ -5,7 +5,7 @@ import { IRequestWithToken } from "@/@types";
 
 export default () => {
   return (req: IRequestWithToken, res: Response, next: NextFunction) => {
-    const parsed = TokenService.bearerParser(req);
+    const parsed = TokenService.bearerParser(req.headers.authorization);
 
     // has token
     if (parsed) {
