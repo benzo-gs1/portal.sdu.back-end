@@ -46,10 +46,12 @@ export default function collector(app: Application) {
         ? Reflect.getMetadata("protected", handler)
         : false;
 
+      console.log(route.methodName, isTest);
+
       const path = join("/api", prefix, route.path);
 
       // test routes are skipped in production
-      if (isTest && config.isProduction) return;
+      if (config.isProduction && isTest) return;
 
       const access = accessName === "private" ? privateApi : publicApi;
 

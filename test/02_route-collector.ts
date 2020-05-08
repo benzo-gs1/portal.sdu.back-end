@@ -16,6 +16,7 @@ describe("Route collector", function () {
   this.beforeAll(function () {
     // initializing configs
     config.init();
+    config.isTesting = true;
 
     // loading application
     app = expressLoader();
