@@ -6,7 +6,7 @@ class Logger {
   static route(req: Request): void {
     if (config.isProduction) {
       // send task to job queue
-    } else {
+    } else if (!config.isTesting) {
       // dev only
       console.info(
         `[${this.getCurrentTime()}] -> ${req.method} REQUEST at ${req.originalUrl}`
@@ -17,7 +17,7 @@ class Logger {
   static fired(name: EventNames | string): void {
     if (config.isProduction) {
       // send task to job queue
-    } else {
+    } else if (!config.isTesting) {
       // dev only
       console.warn(`[${this.getCurrentTime()}] -> EVENT fired: ${name}`);
     }
@@ -26,7 +26,7 @@ class Logger {
   static handled(name: EventNames, who: string, message: string): void {
     if (config.isProduction) {
       // send task to job queue
-    } else {
+    } else if (!config.isTesting) {
       // dev only
       console.info(
         `[${this.getCurrentTime()}] -> ${name} EVENT handled | ${who} is: ${message}`
@@ -37,7 +37,7 @@ class Logger {
   static error(who: string, message: string): void {
     if (config.isProduction) {
       // send task to job queue
-    } else {
+    } else if (!config.isTesting) {
       // dev only
       console.error(`[${this.getCurrentTime()}] -> ERROR at ${who}\nMessage: ${message}`);
     }
@@ -46,7 +46,7 @@ class Logger {
   static log(message: string): void {
     if (config.isProduction) {
       // send task to job queue
-    } else {
+    } else if (!config.isTesting) {
       // dev only
       console.log(`[${this.getCurrentTime()}] -> LOG: ${message}`);
     }

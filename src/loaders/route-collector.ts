@@ -25,7 +25,7 @@ function runner(origin: string, controllers: any[] = [], root = origin) {
 
 export default function collector(app: Application) {
   const controllers = runner("routes");
-  if (!config.isTesting) app.use("/api", logger());
+  app.use("/api", logger());
 
   controllers.forEach((controller) => {
     const instance = new controller();
