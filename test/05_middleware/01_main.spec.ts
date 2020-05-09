@@ -1,15 +1,7 @@
 import { expect } from "chai";
-import routeCollector from "@/loaders/route-collector";
-import expressLoader from "@/loaders/express-loader";
-import { Application } from "express";
-import config from "@/config";
-import axios from "axios";
-import { Server } from "http";
-import "reflect-metadata";
+import DumpServer from "~/DumpServer";
 
-let app: Application;
-let server: Server;
-let point: string;
+let server: DumpServer;
 
 const slow = {
   protected: 10,
@@ -18,27 +10,16 @@ const slow = {
 
 describe("Middleware", function () {
   this.beforeAll(function () {
-    // initializing configs
-    config.init();
-    config.isTesting = true;
-    config.isProduction = true;
-
-    // loading application
-    app = expressLoader();
-
-    // loading routes
-    routeCollector(app);
-
-    server = app.listen(config.port);
-    point = `http://localhost:${config.port}/api/token/validate`;
+    server = new DumpServer({ isProduction: true });
+    server.start();
   });
 
   describe("@Protected", function () {
     this.slow(slow.protected);
 
     it("should send 401 response with status false when no token present", function (done) {
-      axios
-        .post(point)
+      server
+        .post("/token/validate")
         .then(() => done("Error"))
         .catch((err) => {
           expect(err.response.status).to.be.equal(401);
@@ -48,13 +29,8 @@ describe("Middleware", function () {
     });
 
     it("should send 403 response with status false when token is not valid", function (done) {
-      const options = {
-        headers: {
-          Authorization: "Bearer fake.token.really",
-        },
-      };
-      axios
-        .post(point, {}, options)
+      server
+        .post("/token/validate", {}, "fake.token.really")
         .then(() => done("Error"))
         .catch((err) => {
           expect(err.response.status).to.be.equal(403);
@@ -68,8 +44,8 @@ describe("Middleware", function () {
     this.slow(slow.test);
 
     it("should not collect in production, so 404 will return", function (done) {
-      axios
-        .post(`http://localhost:${config.port}/api/token/test/generate`)
+      server
+        .post("/token/test/generate")
         .then(() => done("Error"))
         .catch((err) => {
           expect(err.response.status).to.be.equal(404);
@@ -79,6 +55,6 @@ describe("Middleware", function () {
   });
 
   this.afterAll(function () {
-    server.close();
+    server.stop();
   });
 });

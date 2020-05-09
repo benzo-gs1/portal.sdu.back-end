@@ -7,14 +7,20 @@ import "reflect-metadata";
 import axios, { AxiosResponse } from "axios";
 import { join } from "path";
 
+interface DumpServerConfigs {
+  isTesting?: boolean;
+  isProduction?: boolean;
+}
+
 class DumpServer {
   public app: Application;
   public server: Server | null;
 
-  constructor({ isTesting } = { isTesting: true }) {
+  constructor(options: DumpServerConfigs = {}) {
     // initializing configs
     config.init();
-    config.isTesting = isTesting;
+    config.isTesting = options.isTesting ?? true;
+    config.isProduction = options.isProduction ?? false;
 
     // creating express app
     this.app = expressLoader();
@@ -40,11 +46,7 @@ class DumpServer {
     this.server.close();
   }
 
-  public post(
-    point: string,
-    data: Object,
-    token: string = ""
-  ): Promise<AxiosResponse<any>> {
+  public post(point: string, data = {}, token = ""): Promise<AxiosResponse<any>> {
     return axios.post(`http://localhost:${config.port}${join("/api", point)}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
