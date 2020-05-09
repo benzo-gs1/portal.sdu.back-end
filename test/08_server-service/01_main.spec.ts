@@ -1,42 +1,31 @@
-import config from "@/config";
 import ServerService from "@/services/server";
-import expressLoader from "@/loaders/express-loader";
-import { Application } from "express";
-import { Server } from "http";
 import pipe from "@/pipe";
 import { expect } from "chai";
 import { EventNames } from "@/@types";
+import DumpServer from "~/DumpServer";
+import { Server } from "http";
 
 const slow = {
   kill: 10,
 };
 
-let app: Application;
-
-function appFactory(app: Application): Server {
-  const server = app.listen(config.port);
-  config.server = server;
-  return server;
-}
+let server: DumpServer;
 
 describe("Server Service", function () {
   this.beforeAll(() => {
-    config.init();
-
-    app = expressLoader();
+    server = new DumpServer({ withoutRoutes: true });
   });
 
   describe("#kill", function () {
     this.slow(slow.kill);
+    this.beforeEach(() => server.restart());
 
     it("must stop the server by method", () => {
-      const server = appFactory(app);
-      ServerService.closeServer(server);
+      ServerService.closeServer(server.instance as Server);
       expect(server.listening).to.be.false;
     });
 
     it("must stop the server by event", () => {
-      const server = appFactory(app);
       pipe.emit(EventNames.SERVER_CLOSE);
       expect(server.listening).to.be.false;
     });

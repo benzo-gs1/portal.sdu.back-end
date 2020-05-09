@@ -10,6 +10,7 @@ import { join } from "path";
 interface DumpServerConfigs {
   isTesting?: boolean;
   isProduction?: boolean;
+  withoutRoutes?: boolean;
 }
 
 class DumpServer {
@@ -26,9 +27,17 @@ class DumpServer {
     this.app = expressLoader();
 
     // collecting routes
-    routeCollector(this.app);
+    if (!options.withoutRoutes) routeCollector(this.app);
 
     this.server = null;
+  }
+
+  public get listening() {
+    return this.server?.listening ?? false;
+  }
+
+  public get instance() {
+    return this.server;
   }
 
   public start(): void {
@@ -39,6 +48,7 @@ class DumpServer {
   public restart(): void {
     if (this.server) this.server.close();
     this.server = this.app.listen(config.port);
+    config.server = this.server;
   }
 
   public stop(): void {
