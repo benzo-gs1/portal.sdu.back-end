@@ -1,14 +1,7 @@
 import { expect } from "chai";
-import routeCollector from "@/loaders/route-collector";
-import expressLoader from "@/loaders/express-loader";
-import { Application } from "express";
-import config from "@/config";
-import axios from "axios";
-import { Server } from "http";
-import "reflect-metadata";
+import DumpServer from "~/DumpServer";
 
-let app: Application;
-let server: Server;
+let server: DumpServer;
 
 const slow = 120;
 
@@ -16,29 +9,21 @@ describe("Route collector", function () {
   this.slow(slow);
 
   this.beforeAll(function () {
-    // initializing configs
-    config.init();
-    config.isTesting = true;
-
-    // loading application
-    app = expressLoader();
-
-    // loading routes
-    routeCollector(app);
-
-    server = app.listen(config.port);
+    server = new DumpServer();
+    server.start();
   });
 
   it("should have collected all the routes correctly", async function () {
-    const response = await axios.post(
-      `http://localhost:${config.port}/api/token/test/generate`,
-      { ip: "some-ip", role_level: 0, username: "some-name" }
-    );
+    const response = await server.post("/token/test/generate", {
+      ip: "some-ip",
+      role_level: 0,
+      username: "some-name",
+    });
 
     expect(response.data.status).to.be.true;
   });
 
   this.afterAll(function () {
-    server.close();
+    server.stop();
   });
 });
