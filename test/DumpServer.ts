@@ -16,7 +16,10 @@ interface DumpServerConfigs {
   port?: number;
 }
 
+type ResponseType = "error" | "good";
+
 class DumpServer {
+  [index: string]: any;
   public static servers = new Map<string, DumpServer>();
   public static register(name: string, server: DumpServer) {
     this.servers.set(name, server);
@@ -52,7 +55,6 @@ class DumpServer {
   public get listening() {
     return this.server?.listening ?? false;
   }
-
   public get instance() {
     return this.server;
   }
@@ -61,13 +63,11 @@ class DumpServer {
     if (this.server) throw new Error("Cannot start server, it's already started");
     this.restart();
   }
-
   public restart(): void {
     if (this.server) this.server.close();
     this.server = this.app.listen(this.config.port);
     this.config.server = this.server;
   }
-
   public stop(): void {
     if (!this.server) throw new Error("Cannot stop server, it's not active now");
     this.server.close();
@@ -84,7 +84,6 @@ class DumpServer {
       }
     );
   }
-
   public postForError(
     point: string,
     done: Function,
@@ -98,6 +97,45 @@ class DumpServer {
         tests(err.response);
         done();
       });
+  }
+  public postForGood(
+    point: string,
+    done: Function,
+    tests: Function,
+    data = {},
+    token = ""
+  ) {
+    this.post(point, data, token)
+      .then((res) => {
+        tests(res);
+        done();
+      })
+      .catch(() => done("Error"));
+  }
+  public postForCode(
+    point: string,
+    done: Function,
+    code: number,
+    status: ResponseType,
+    data = {},
+    token = ""
+  ) {
+    let method: string = "";
+    if (status === "good") method = "postForGood";
+    else if (status === "error") method = "postForGood";
+
+    if (method in this) {
+      const invoker = this[method];
+      invoker(
+        point,
+        done,
+        (res: AxiosResponse) => {
+          expect(res.status).to.be.equal(code);
+        },
+        data,
+        token
+      );
+    }
   }
 
   public postForProtected(point: string, done: Function) {
@@ -115,6 +153,18 @@ class DumpServer {
         expect(err.response.status).to.be.equal(403);
         done();
       });
+  }
+
+  public postForNotFound(point: string, done: Function, data = {}, token = "") {
+    this.postForCode(point, done, 404, "error", data, token);
+  }
+
+  public postForDeny(point: string, done: Function, data = {}, token = "") {
+    this.postForCode(point, done, 400, "error", data, token);
+  }
+
+  public postForOk(point: string, done: Function, data = {}, token = "") {
+    this.postForCode(point, done, 200, "good", data, token);
   }
 }
 
