@@ -4,11 +4,9 @@ import { IConfig } from "@/@types";
 
 function setConfig(key: string, value: any) {
   if (key && value) {
-    if (!configs.isTesting) {
-      Logger.log(
-        `Configuration update at ${key} by: ${typeof configs[key]} --> ${typeof value}`
-      );
-    }
+    Logger.log(
+      `Configuration update at ${key} by: ${typeof configs[key]} --> ${typeof value}`
+    );
 
     configs[key] = value;
   }

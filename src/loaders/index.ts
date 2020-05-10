@@ -39,7 +39,7 @@ export default class Loaders {
 
     // collecting routes
     Logger.log("Routes initializing....");
-    routeCollector(app);
+    routeCollector(app, config);
     Logger.log("Routes Done");
 
     return { app, connection };

@@ -11,12 +11,20 @@ describe("Database loader", function () {
   this.timeout(timeout);
 
   it("must have connection", function (done) {
+    let connected = false;
+
+    const id = setTimeout(() => {
+      if (!connected) done("No connection established");
+    }, timeout);
+
     init()
       .then((conn) => {
         connection = conn;
+        connected = true;
         done();
       })
-      .catch((err) => done(err));
+      .catch((err) => done(err))
+      .finally(() => clearTimeout(id));
   });
 
   this.afterAll(function () {

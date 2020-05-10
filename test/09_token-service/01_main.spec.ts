@@ -1,6 +1,6 @@
 import TokenService from "@/services/token";
 import { expect } from "chai";
-import { ITokenData } from "./@types";
+import { ITokenData } from "@/@types";
 
 const FAKE_TOKEN_DATA: ITokenData = {
   ip: "some-ip",

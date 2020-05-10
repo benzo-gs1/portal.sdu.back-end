@@ -25,7 +25,8 @@
     // path resolving
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "~/*": ["./test/*"]
     }
   },
   "include": ["./src/**/*", "./test/**/*"]

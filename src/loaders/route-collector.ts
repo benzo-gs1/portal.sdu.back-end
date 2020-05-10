@@ -3,7 +3,7 @@ import { join } from "path";
 import { Request, Response, Application } from "express";
 import { RouteDefinition, RouteResponse } from "@/utils";
 import { logger, publicApi, privateApi, authorization } from "@/middleware";
-import config from "@/config";
+import { IConfig } from "@/@types";
 
 function runner(origin: string, controllers: any[] = [], root = origin) {
   const base = join(__dirname, "../", origin);
@@ -23,9 +23,9 @@ function runner(origin: string, controllers: any[] = [], root = origin) {
   return controllers;
 }
 
-export default function collector(app: Application) {
+export default function collector(app: Application, config: IConfig) {
   const controllers = runner("routes");
-  if (!config.isTesting) app.use("/api", logger());
+  app.use("/api", logger());
 
   controllers.forEach((controller) => {
     const instance = new controller();

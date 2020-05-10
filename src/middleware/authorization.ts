@@ -1,5 +1,5 @@
 import TokenService from "@/services/token";
-import RolesService from "@/services/roles";
+import RoleService from "@/services/role";
 import { Response, NextFunction } from "express";
 import { IRequestWithToken } from "@/@types";
 
@@ -18,7 +18,7 @@ export default () => {
 
         // same ip source
         if (ip === clientIp) {
-          const isAuthorized = RolesService.authorize(role_level, req.originalUrl);
+          const isAuthorized = RoleService.authorize(role_level, req.originalUrl);
 
           // resource is available for the role
           if (isAuthorized) {

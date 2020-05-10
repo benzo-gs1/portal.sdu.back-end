@@ -1,5 +1,4 @@
 import Logger from "@/services/logger";
-import config from "@/config";
 
 export function LogOnError(
   target: Function,
@@ -12,7 +11,7 @@ export function LogOnError(
     try {
       return await originalMethod.apply(this, args);
     } catch (err) {
-      if (!config.isTesting) Logger.error(target.name, err);
+      Logger.error(target.name, err);
       return false;
     }
   };
@@ -31,7 +30,7 @@ export function LogOnErrorSync(
     try {
       return originalMethod.apply(this, args);
     } catch (err) {
-      if (!config.isTesting) Logger.error(target.name, err);
+      Logger.error(target.name, err);
       return false;
     }
   };
