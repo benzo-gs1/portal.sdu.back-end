@@ -1,3 +1,4 @@
 import validate from "./validate";
+import testGenerate from "./test/generate";
 
-export default [validate];
+export default [validate, testGenerate];
