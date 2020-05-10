@@ -122,11 +122,10 @@ class DumpServer {
   ) {
     let method: string = "";
     if (status === "good") method = "postForGood";
-    else if (status === "error") method = "postForGood";
+    else if (status === "error") method = "postForError";
 
     if (method in this) {
-      const invoker = this[method];
-      invoker(
+      this[method](
         point,
         done,
         (res: AxiosResponse) => {
