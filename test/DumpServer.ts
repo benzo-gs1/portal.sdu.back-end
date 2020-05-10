@@ -31,7 +31,7 @@ class DumpServer {
     this.app = expressLoader();
 
     // collecting routes
-    if (!options.withoutRoutes) routeCollector(this.app);
+    if (!options.withoutRoutes) routeCollector(this.app, this.config);
 
     this.server = null;
   }
