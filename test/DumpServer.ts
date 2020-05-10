@@ -16,6 +16,17 @@ interface DumpServerConfigs {
 }
 
 class DumpServer {
+  public static servers = new Map<string, DumpServer>();
+  public static register(name: string, server: DumpServer) {
+    this.servers.set(name, server);
+  }
+  public static unregister(name: string) {
+    this.servers.delete(name);
+  }
+  public static get(name: string): DumpServer {
+    return this.servers.get(name) as DumpServer;
+  }
+
   public app: Application;
   public server: Server | null;
   public config: IConfig;
@@ -26,6 +37,7 @@ class DumpServer {
     this.config = Object.assign({}, config);
     this.config.isTesting = options.isTesting ?? true;
     this.config.isProduction = options.isProduction ?? false;
+    this.config.port = options.port ?? 3000;
 
     // creating express app
     this.app = expressLoader();
@@ -51,7 +63,7 @@ class DumpServer {
 
   public restart(): void {
     if (this.server) this.server.close();
-    this.server = this.app.listen(config.port);
+    this.server = this.app.listen(this.config.port);
     this.config.server = this.server;
   }
 
