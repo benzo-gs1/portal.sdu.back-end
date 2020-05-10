@@ -15,7 +15,7 @@ import { LogOnErrorSync } from "@/utils";
  */
 const roles: IRole[] = [test, student];
 
-class RolesService {
+class RoleService {
   @LogOnErrorSync
   static authorize(role_level: number, api: string): boolean {
     const role = roles[role_level];
@@ -34,4 +34,4 @@ class RolesService {
   }
 }
 
-export default RolesService;
+export default RoleService;
