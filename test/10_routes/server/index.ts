@@ -1,17 +1,8 @@
-import DumpServer from "~/DumpServer";
+import testKill from "./test/kill";
 
-const slow = {
-  test: {
-    kill: 5,
+export default [
+  {
+    name: "/server/test/kill",
+    handler: testKill,
   },
-};
-
-export default (prod: DumpServer, dev: DumpServer) => {
-  return function suite(this: Mocha.Suite) {
-    describe("/server/test/kill", function () {
-      this.slow(slow.test.kill);
-
-      it("must be closed in production", (done) => {});
-    });
-  };
-};
+];
