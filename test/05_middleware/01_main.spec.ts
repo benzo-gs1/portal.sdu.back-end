@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import DumpServer from "~/DumpServer";
+import { AxiosResponse } from "axios";
 
 let server: DumpServer;
 
@@ -18,25 +19,23 @@ describe("Middleware", function () {
     this.slow(slow.protected);
 
     it("should send 401 response with status false when no token present", function (done) {
-      server
-        .post("/token/validate")
-        .then(() => done("Error"))
-        .catch((err) => {
-          expect(err.response.status).to.be.equal(401);
-          expect(err.response.data?.status).to.be.false;
-          done();
-        });
+      server.postForError("/token/validate", done, (res: AxiosResponse) => {
+        expect(res.status).to.be.equal(401);
+        expect(res.data?.status).to.be.false;
+      });
     });
 
     it("should send 403 response with status false when token is not valid", function (done) {
-      server
-        .post("/token/validate", {}, "fake.token.really")
-        .then(() => done("Error"))
-        .catch((err) => {
-          expect(err.response.status).to.be.equal(403);
-          expect(err.response.data?.status).to.be.false;
-          done();
-        });
+      server.postForError(
+        "/token/validate",
+        done,
+        (res: AxiosResponse) => {
+          expect(res.status).to.be.equal(403);
+          expect(res.data?.status).to.be.false;
+        },
+        {},
+        "fake.token.really"
+      );
     });
   });
 
@@ -44,13 +43,9 @@ describe("Middleware", function () {
     this.slow(slow.test);
 
     it("should not collect in production, so 404 will return", function (done) {
-      server
-        .post("/token/test/generate")
-        .then(() => done("Error"))
-        .catch((err) => {
-          expect(err.response.status).to.be.equal(404);
-          done();
-        });
+      server.postForError("/token/test/generate", done, (res: AxiosResponse) => {
+        expect(res.status).to.be.equal(404);
+      });
     });
   });
 
