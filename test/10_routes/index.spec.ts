@@ -1,8 +1,20 @@
 import DumpServer from "~/DumpServer";
 import server from "./server";
+import token from "./token";
 
 let productionServer: DumpServer;
 let developmentServer: DumpServer;
+
+const tests = [
+  {
+    name: "Server routes",
+    routes: server,
+  },
+  {
+    name: "Token routes",
+    routes: token,
+  },
+];
 
 describe("Routes", function () {
   this.beforeAll(() => {
@@ -22,13 +34,13 @@ describe("Routes", function () {
     DumpServer.register("development", developmentServer);
   });
 
-  describe("Server routes", function () {
-    const routes = server;
-
-    for (const route of routes) {
-      describe(route.name, route.handler);
-    }
-  });
+  for (const test of tests) {
+    describe(test.name, function () {
+      for (const route of test.routes) {
+        describe(route.name, route.handler);
+      }
+    });
+  }
 
   this.afterAll(() => {
     productionServer.stop();

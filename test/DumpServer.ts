@@ -7,6 +7,7 @@ import "reflect-metadata";
 import axios, { AxiosResponse } from "axios";
 import { join } from "path";
 import { IConfig } from "@/@types";
+import { expect } from "chai";
 
 interface DumpServerConfigs {
   isTesting?: boolean;
@@ -91,15 +92,27 @@ class DumpServer {
     data = {},
     token = ""
   ) {
-    axios
-      .post(`http://localhost:${this.config.port}${join("/api", point)}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    this.post(point, data, token)
       .then(() => done("Error"))
       .catch((err) => {
         tests(err.response);
+        done();
+      });
+  }
+
+  public postForProtected(point: string, done: Function) {
+    // no token
+    this.post(point)
+      .then(() => done("Error"))
+      .catch((err) => {
+        expect(err.response.status).to.be.equal(401);
+
+        // bad token
+        return this.post(point, {}, "some.false.token");
+      })
+      .then(() => done("Error"))
+      .catch((err) => {
+        expect(err.response.status).to.be.equal(403);
         done();
       });
   }
