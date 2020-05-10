@@ -1,7 +1,5 @@
 import ServerService from "@/services/server";
-import pipe from "@/pipe";
 import { expect } from "chai";
-import { EventNames } from "@/@types";
 import DumpServer from "~/DumpServer";
 import { Server } from "http";
 
@@ -22,11 +20,6 @@ describe("Server Service", function () {
 
     it("must stop the server by method", () => {
       ServerService.closeServer(server.instance as Server);
-      expect(server.listening).to.be.false;
-    });
-
-    it("must stop the server by event", () => {
-      pipe.emit(EventNames.SERVER_CLOSE);
       expect(server.listening).to.be.false;
     });
   });
