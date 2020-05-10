@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import DumpServer from "~/DumpServer";
 
 let server: DumpServer;
@@ -13,14 +12,8 @@ describe("Route collector", function () {
     server.start();
   });
 
-  it("should have collected all the routes correctly", async function () {
-    const response = await server.post("/token/test/generate", {
-      ip: "some-ip",
-      role_level: 0,
-      username: "some-name",
-    });
-
-    expect(response.data.status).to.be.true;
+  it("should have collected all the routes correctly", function (done) {
+    server.postForDeny("/token/test/generate", done);
   });
 
   this.afterAll(function () {
