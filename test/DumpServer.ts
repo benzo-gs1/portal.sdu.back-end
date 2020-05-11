@@ -165,6 +165,10 @@ class DumpServer {
   public postForOk(point: string, done: Function, data = {}, token = "") {
     this.postForCode(point, done, 200, "good", data, token);
   }
+
+  public postForBadBody(point: string, done: Function, data = {}, token = "") {
+    this.postForCode(point, done, 412, "error", data, token);
+  }
 }
 
 export default DumpServer;

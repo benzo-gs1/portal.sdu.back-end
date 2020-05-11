@@ -1,9 +1,10 @@
 import { readdirSync, statSync } from "fs";
 import { join } from "path";
-import { Request, Response, Application } from "express";
-import { RouteDefinition, RouteResponse } from "@/utils";
+import { Request, Response, Application, NextFunction } from "express";
+import { RouteDefinition, RouteResponse, Post } from "@/utils";
 import { logger, publicApi, privateApi, authorization } from "@/middleware";
 import { IConfig } from "@/@types";
+import Logger from "@/services/logger";
 
 function runner(origin: string, controllers: any[] = [], root = origin) {
   const base = join(__dirname, "../", origin);
@@ -45,6 +46,9 @@ export default function collector(app: Application, config: IConfig) {
       const isProtected = Reflect.hasMetadata("protected", handler)
         ? Reflect.getMetadata("protected", handler)
         : false;
+      const body = Reflect.hasMetadata("body", handler)
+        ? Reflect.getMetadata("body", handler)
+        : false;
 
       const path = join("/api", prefix, route.path);
 
@@ -54,15 +58,67 @@ export default function collector(app: Application, config: IConfig) {
       const access = accessName === "private" ? privateApi : publicApi;
 
       const responseBody = (req: Request, res: Response) => {
-        const response = handler(req, res) as RouteResponse;
-        const code = response.code;
-        delete response["code"];
-        res.status(code).send(response);
+        try {
+          const response = handler(req, res) as RouteResponse;
+          const code = response.code;
+          delete response["code"];
+          res.status(code).send(response);
+        } catch (err) {
+          Logger.error(`Route: ${path}`, err);
+          res.status(500).send({
+            status: false,
+            message:
+              "Internal server error, please contact developers for quick problem resolving",
+          });
+        }
       };
 
-      if (isProtected)
-        app[route.requestMethod](path, access(), authorization(), responseBody);
-      else app[route.requestMethod](path, access(), responseBody);
+      // TODO could possibly be simplified
+      const bodyHandler = (req: Request, res: Response, next: NextFunction) => {
+        // running through each key
+        for (const key in body) {
+          // when requested key is not in the request body and datatype is not valid
+          const isPresent = key in req.body;
+
+          if (!isPresent) {
+            return res.status(412).send({
+              status: false,
+              message: `Request lacks body parameter: ${key}`,
+            });
+          }
+          const reqType = typeof req.body[key];
+          const bodyType = body[key].name?.toLowerCase();
+          const isCorrectType = reqType === bodyType;
+
+          if (!isCorrectType) {
+            return res.status(412).send({
+              status: false,
+              message: `Body parameter bad datatype: ${reqType} found, but ${bodyType} expected`,
+            });
+          }
+        }
+
+        return next();
+      };
+
+      // TODO need to refactor
+      // protected route
+      if (isProtected) {
+        // with body testing
+        if (body) {
+          app[route.requestMethod](
+            path,
+            access(),
+            authorization(),
+            bodyHandler,
+            responseBody
+          );
+        } else app[route.requestMethod](path, access(), authorization(), responseBody);
+      } else {
+        if (body) {
+          app[route.requestMethod](path, access(), bodyHandler, responseBody);
+        } else app[route.requestMethod](path, access(), responseBody);
+      }
     });
   });
 }
