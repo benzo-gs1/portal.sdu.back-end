@@ -20,9 +20,9 @@ class UsersTestController {
 
     if (userFound) {
       const hashPassword = CryptoService.hashPassword(password);
-      const isValid = CryptoService.validatePasswords(password, hashPassword);
+      const isValidPassword = CryptoService.validatePasswords(password, hashPassword);
 
-      if (isValid) {
+      if (isValidPassword) {
         const data = {
           role_level: 0,
           username: username,
@@ -43,6 +43,41 @@ class UsersTestController {
           status: false,
           message: "Password is incorrect",
         });
+      }
+    } else {
+      return RouteResponse.deny("User not found").send({
+        status: true,
+        message: "User not found",
+      });
+    }
+  }
+
+  @Body({
+    username: String,
+    password: String,
+  })
+  @Post("/validate")
+  public validate(req: Request) {
+    const { username, password } = req.body;
+    const User = UserModels.fast;
+
+    const userFound = User.findOne({ username: username });
+
+    if (userFound) {
+      const token = req.headers.authorization;
+
+      if (token) {
+        const isValidToken = TokenService.validate(token);
+
+        return isValidToken
+          ? RouteResponse.say("Credentials are valid").send({
+              status: true,
+              message: "Credentials are valid",
+            })
+          : RouteResponse.deny("Password is incorrect").send({
+              status: false,
+              message: "Password is incorrect",
+            });
       }
     } else {
       return RouteResponse.deny("User not found").send({
