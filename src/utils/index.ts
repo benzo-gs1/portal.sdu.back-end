@@ -13,6 +13,7 @@ import {
   Protected,
   Get,
 } from "./Route";
+import createModels from "./createModels";
 
 export {
   createSchemaRef,
@@ -29,4 +30,5 @@ export {
   Private,
   Protected,
   Get,
+  createModels,
 };

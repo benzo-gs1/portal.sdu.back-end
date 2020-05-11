@@ -1,6 +1,6 @@
 import { Server } from "http";
 import { Request } from "express";
-import { Connection } from "mongoose";
+import { Connection, Model, Document } from "mongoose";
 import { EventNames } from "./EventNames";
 import { ModelNames } from "./ModelNames";
 
@@ -9,6 +9,11 @@ export { EventNames, ModelNames };
 export interface IConnection {
   slow: Connection;
   fast: Connection;
+}
+
+export interface IModel<T extends Document> {
+  slow: Model<T>;
+  fast: Model<T>;
 }
 
 export interface IConfig {
