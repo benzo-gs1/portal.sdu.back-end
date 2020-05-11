@@ -4,6 +4,7 @@ import { Request, Response, Application } from "express";
 import { RouteDefinition, RouteResponse } from "@/utils";
 import { logger, publicApi, privateApi, authorization } from "@/middleware";
 import { IConfig } from "@/@types";
+import Logger from "@/services/logger";
 
 function runner(origin: string, controllers: any[] = [], root = origin) {
   const base = join(__dirname, "../", origin);
@@ -54,10 +55,19 @@ export default function collector(app: Application, config: IConfig) {
       const access = accessName === "private" ? privateApi : publicApi;
 
       const responseBody = (req: Request, res: Response) => {
-        const response = handler(req, res) as RouteResponse;
-        const code = response.code;
-        delete response["code"];
-        res.status(code).send(response);
+        try {
+          const response = handler(req, res) as RouteResponse;
+          const code = response.code;
+          delete response["code"];
+          res.status(code).send(response);
+        } catch (err) {
+          Logger.error(`Route: ${path}`, err);
+          res.status(500).send({
+            status: false,
+            message:
+              "Internal server error, please contact developers for quick problem resolving",
+          });
+        }
       };
 
       if (isProtected)
