@@ -10,6 +10,13 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  language: {
+    type: String,
+    default: "en",
+    enum: ["en", "ru", "kz"],
+  },
+  roles: [Number],
+  widgets: [Number],
 });
 
 export default UserSchema;
