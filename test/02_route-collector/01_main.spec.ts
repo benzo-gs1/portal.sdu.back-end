@@ -13,7 +13,7 @@ describe("Route collector", function () {
   });
 
   it("should have collected all the routes correctly", function (done) {
-    server.postForDeny("/token/test/generate", done);
+    server.postForBadBody("/token/test/generate", done);
   });
 
   this.afterAll(function () {

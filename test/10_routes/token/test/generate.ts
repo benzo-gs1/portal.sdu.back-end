@@ -13,9 +13,9 @@ export default {
       prod.postForNotFound(name, done);
     });
 
-    it("must return 400 when requirements are not met", (done) => {
+    it("must return 412 when requirements are not met", (done) => {
       const dev = DumpServer.get("development");
-      dev.postForDeny(name, done);
+      dev.postForBadBody(name, done);
     });
 
     it("must return 200 when everything is ok", (done) => {
