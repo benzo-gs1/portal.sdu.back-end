@@ -78,6 +78,8 @@ class UsersTestController {
               status: false,
               message: "Password is incorrect",
             });
+      } else {
+        return RouteResponse.say("No token found");
       }
     } else {
       return RouteResponse.deny("User not found").send({
