@@ -103,22 +103,18 @@ export default function collector(app: Application, config: IConfig) {
 
       // TODO need to refactor
       // protected route
-      if (isProtected) {
+      if (isProtected && body)
         // with body testing
-        if (body) {
-          app[route.requestMethod](
-            path,
-            access(),
-            authorization(),
-            bodyHandler,
-            responseBody
-          );
-        } else app[route.requestMethod](path, access(), authorization(), responseBody);
-      } else {
-        if (body) {
-          app[route.requestMethod](path, access(), bodyHandler, responseBody);
-        } else app[route.requestMethod](path, access(), responseBody);
-      }
+        app[route.requestMethod](path, access(), authorization(), bodyHandler, responseBody); 
+
+      if (isProtected && !body) 
+        app[route.requestMethod](path, access(), authorization(), responseBody);
+
+      if (!isProtected && body)
+        app[route.requestMethod](path, access(), bodyHandler, responseBody);
+
+      if (!isProtected && !body)
+        app[route.requestMethod](path, access(), responseBody);
     });
   });
 }
