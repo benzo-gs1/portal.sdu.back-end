@@ -107,6 +107,12 @@ export function Test(target: any, key: string, descriptor: PropertyDescriptor) {
   return descriptor;
 }
 
+export function Body(body: Object) {
+  return (target: any, key: string) => {
+    Reflect.defineMetadata("body", body, target[key]);
+  };
+}
+
 export function Controller(prefix: string): ClassDecorator {
   return function (constructor: Function) {
     Reflect.defineMetadata("prefix", prefix, constructor);
