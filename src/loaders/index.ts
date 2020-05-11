@@ -25,6 +25,7 @@ export default class Loaders {
     // initializing mongodb connection
     Logger.log("MongoDB initializing....");
     const connection: IConnection = await dbInit();
+    config.setConfig("mongoConnection", connection);
     Logger.log("MongoDB Done");
 
     // initializing express & middleware plugins
