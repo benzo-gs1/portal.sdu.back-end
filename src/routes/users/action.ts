@@ -6,7 +6,7 @@ import CryptoService from "@/services/crypto";
 import TokenService from "@/services/token";
 
 @Controller("/users")
-class UsersTestController {
+class UsersController {
   @Body({
     username: String,
     password: String,
@@ -16,40 +16,30 @@ class UsersTestController {
     const { username, password } = req.body;
     const User = UserModels.fast;
 
-    const userFound = User.findOne({ username: username });
+    const userFound = User.findOne({ username });
 
     if (userFound) {
       const hashPassword = CryptoService.hashPassword(password);
       const isValidPassword = CryptoService.validatePasswords(password, hashPassword);
 
       if (isValidPassword) {
-        const data = {
-          role_level: 0,
-          username: username,
-          ip: "idunno",
+        const tokenData = {
+          username,
+          role_level: userFound.roles[0],
+          ip: req.clientIp,
         };
-        const token = TokenService.create(data);
+        const token = TokenService.create(tokenData);
 
         return RouteResponse.say("Success").send({
-          status: true,
-          message: "Success",
-          data: {
-            token: token,
-            user: userFound,
-          },
-        });
-      } else {
-        return RouteResponse.deny("Password is incorrect").send({
-          status: false,
-          message: "Password is incorrect",
+          token: token,
+          user: userFound,
         });
       }
-    } else {
-      return RouteResponse.deny("User not found").send({
-        status: true,
-        message: "User not found",
-      });
+      
+      return RouteResponse.deny("Password is incorrect");
     }
+    
+    return RouteResponse.deny("User not found", 404);
   }
 
   @Body({
@@ -90,4 +80,4 @@ class UsersTestController {
   }
 }
 
-export default UsersTestController;
+export default UsersController;
