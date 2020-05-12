@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "ip": "some-ip",
-  "role_level": 0,
+  "roles": [0],
   "username": "some-name"
 }
 

@@ -1,5 +1,5 @@
 import UserModels from "@/models/users";
-import { Controller, Test, Post, RouteResponse } from "@/utils";
+import { Controller, Post, RouteResponse } from "@/utils";
 import { Request } from "express";
 import { Body } from "@/utils/Route";
 import CryptoService from "@/services/crypto";

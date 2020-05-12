@@ -88,7 +88,10 @@ export default function collector(app: Application, config: IConfig) {
           }
           const reqType = typeof req.body[key];
           const bodyType = body[key].name?.toLowerCase();
-          const isCorrectType = reqType === bodyType;
+          let isCorrectType: boolean;
+
+          if (bodyType === "array") isCorrectType = Array.isArray(req.body[key]);
+          else isCorrectType = reqType === bodyType;
 
           if (!isCorrectType) {
             return res.status(412).send({
