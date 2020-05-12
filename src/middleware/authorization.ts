@@ -13,12 +13,14 @@ export default () => {
 
       // token is valid
       if (token) {
-        const { ip, role_level } = token;
+        const { ip, roles } = token;
         const clientIp = req.clientIp;
 
         // same ip source
         if (ip === clientIp) {
-          const isAuthorized = RoleService.authorize(role_level, req.originalUrl);
+          let isAuthorized = roles.reduce((prev, curr) => {
+            return prev && RoleService.authorize(curr, req.originalUrl);
+          }, false);
 
           // resource is available for the role
           if (isAuthorized) {
