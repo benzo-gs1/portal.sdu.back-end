@@ -1,7 +1,4 @@
-import { init } from "@/loaders/db-loader";
-import { IConnection } from "@/@types";
-
-let connection: IConnection;
+import DumpServer from "~/DumpServer";
 
 const slow = 5000;
 const timeout = slow * 2;
@@ -17,18 +14,12 @@ describe("Database loader", function () {
       if (!connected) done("No connection established");
     }, timeout);
 
-    init()
-      .then((conn) => {
-        connection = conn;
+    DumpServer.startConnection()
+      .then(() => {
         connected = true;
         done();
       })
       .catch((err) => done(err))
       .finally(() => clearTimeout(id));
-  });
-
-  this.afterAll(function () {
-    connection?.fast?.close();
-    connection?.slow?.close();
   });
 });
