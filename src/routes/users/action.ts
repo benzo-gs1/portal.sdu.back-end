@@ -12,33 +12,32 @@ class UsersController {
     password: String,
   })
   @Post("/authorize")
-  public authorize(req: Request) {
+  public async authorize(req: Request) {
     const { username, password } = req.body;
     const User = UserModels.fast;
 
-    const userFound = User.findOne({ username });
+    const userFound = await User.findOne({ username }).exec();
 
     if (userFound) {
       const hashPassword = CryptoService.hashPassword(password);
       const isValidPassword = CryptoService.validatePasswords(password, hashPassword);
 
       if (isValidPassword) {
-        const tokenData = {
+        const token = TokenService.create({
+          ip: req.clientIp as string,
+          roles: userFound.roles,
           username,
-          role_level: userFound.roles[0],
-          ip: req.clientIp,
-        };
-        const token = TokenService.create(tokenData);
+        });
 
         return RouteResponse.say("Success").send({
           token: token,
           user: userFound,
         });
       }
-      
+
       return RouteResponse.deny("Password is incorrect");
     }
-    
+
     return RouteResponse.deny("User not found", 404);
   }
 
