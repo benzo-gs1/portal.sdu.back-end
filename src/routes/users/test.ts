@@ -2,6 +2,7 @@ import UserModels from "@/models/users";
 import { Controller, Test, Post, RouteResponse } from "@/utils";
 import { Request } from "express";
 import { Body } from "@/utils/Route";
+import CryptoService from "@/services/crypto";
 
 @Controller("/users/test")
 class UsersTestController {
@@ -17,10 +18,11 @@ class UsersTestController {
     const { username, password, language, role } = req.body;
 
     const User = UserModels.fast;
+    const hashedPassword = CryptoService.hashPassword(password);
 
     const user = new User({
       username,
-      password,
+      password: hashedPassword,
       language,
       roles: [role],
     });
