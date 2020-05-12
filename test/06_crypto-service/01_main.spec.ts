@@ -22,8 +22,12 @@ describe("Crypto Service", function () {
   describe("#validatePasswords", function () {
     this.slow(slow.validate);
 
-    it("must validate passwords properly", function () {
+    it("must return true when password is valid", function () {
       expect(CryptoService.validatePasswords(password, encrypted)).to.be.true;
+    });
+
+    it("must return false when passwords are not matching", function () {
+      expect(CryptoService.validatePasswords(password + "1", encrypted)).to.be.false;
     });
   });
 });
