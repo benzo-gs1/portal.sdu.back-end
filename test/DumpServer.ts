@@ -54,7 +54,7 @@ class DumpServer {
     config.isTesting = true;
   }
   public static disableTestMode() {
-    config.isTesting = true;
+    config.isTesting = false;
   }
 
   public static async startConnection() {
