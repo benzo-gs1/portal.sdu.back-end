@@ -11,7 +11,6 @@ import { IConfig } from "@/@types";
 import { expect } from "chai";
 
 interface DumpServerConfigs {
-  isTesting?: boolean;
   isProduction?: boolean;
   withoutRoutes?: boolean;
   port?: number;
@@ -38,9 +37,7 @@ class DumpServer {
 
   constructor(options: DumpServerConfigs = {}) {
     // initializing configs
-    config.init();
     this.config = Object.assign({}, config);
-    this.config.isTesting = options.isTesting ?? true;
     this.config.isProduction = options.isProduction ?? false;
     this.config.port = options.port ?? 3000;
 
@@ -51,6 +48,13 @@ class DumpServer {
     if (!options.withoutRoutes) routeCollector(this.app, this.config);
 
     this.server = null;
+  }
+
+  public static enableTestMode() {
+    config.isTesting = true;
+  }
+  public static disableTestMode() {
+    config.isTesting = true;
   }
 
   public static async startConnection() {
