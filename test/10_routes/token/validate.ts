@@ -7,7 +7,7 @@ const slow = 20;
 const name = "/token/validate";
 
 export default {
-  name,
+  name: `${name} (POST)`,
   handler: function (this: Mocha.Suite) {
     this.slow(slow);
 

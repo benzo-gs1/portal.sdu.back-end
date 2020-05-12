@@ -5,7 +5,7 @@ const name = "/users/test/delete";
 const slow = 3000;
 
 export default {
-  name,
+  name: `${name} (DELETE)`,
   handler: function (this: Mocha.Suite) {
     this.slow(slow);
 

@@ -130,7 +130,7 @@ class DumpServer {
     token = ""
   ) {
     this.request(type, point, data, token)
-      .then(() => done("Error"))
+      .then((err) => done("Error:", err))
       .catch((err) => {
         tests(err.response);
         done();
@@ -144,12 +144,12 @@ class DumpServer {
     data = {},
     token = ""
   ) {
-    this.request("post", point, data, token)
+    this.request(type, point, data, token)
       .then((res) => {
         tests(res);
         done();
       })
-      .catch(() => done("Error"));
+      .catch((err) => done("Error:", err));
   }
   public requestForCode(
     type: RequestType,

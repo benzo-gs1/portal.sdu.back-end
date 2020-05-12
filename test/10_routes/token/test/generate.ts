@@ -4,7 +4,7 @@ const name = "/token/test/generate";
 const slow = 20;
 
 export default {
-  name,
+  name: `${name} (POST)`,
   handler: function (this: Mocha.Suite) {
     this.slow(slow);
 
