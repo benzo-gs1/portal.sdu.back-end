@@ -1,6 +1,7 @@
 import config from "@/config";
 import expressLoader from "@/loaders/express-loader";
 import routeCollector from "@/loaders/route-collector";
+import { init as dbInit } from "@/loaders/db-loader";
 import { Application } from "express";
 import { Server } from "http";
 import "reflect-metadata";
@@ -50,6 +51,14 @@ class DumpServer {
     if (!options.withoutRoutes) routeCollector(this.app, this.config);
 
     this.server = null;
+  }
+
+  public static async startConnection() {
+    config.mongoConnection = await dbInit();
+  }
+  public static stopConnection() {
+    config.mongoConnection?.fast.close();
+    config.mongoConnection?.slow.close();
   }
 
   public get listening() {
