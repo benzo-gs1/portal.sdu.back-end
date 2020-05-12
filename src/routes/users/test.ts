@@ -1,7 +1,7 @@
 import UserModels from "@/models/users";
 import { Controller, Test, Post, RouteResponse } from "@/utils";
 import { Request } from "express";
-import { Body } from "@/utils/Route";
+import { Body, Delete } from "@/utils/Route";
 import CryptoService from "@/services/crypto";
 
 @Controller("/users/test")
@@ -29,6 +29,20 @@ class UsersTestController {
 
     await user.save();
     return RouteResponse.say("Success").send(user);
+  }
+
+  @Test
+  @Body({
+    username: String,
+  })
+  @Delete("/delete")
+  public async delete(req: Request) {
+    const { username } = req.body;
+
+    const User = UserModels.fast;
+
+    await User.findOneAndRemove({ username }).exec();
+    return RouteResponse.say("Success");
   }
 }
 
