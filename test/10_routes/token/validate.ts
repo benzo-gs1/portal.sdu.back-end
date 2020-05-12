@@ -22,7 +22,7 @@ export default {
 
       const token = TokenService.create({
         ip: "::ffff:127.0.0.1",
-        role_level: 0,
+        roles: [0],
         username: "test",
       }) as string;
       const response = await dev.post(name, {}, token);
