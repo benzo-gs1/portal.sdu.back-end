@@ -5,7 +5,7 @@ const name = "/users/test/create";
 const slow = 3000;
 
 export default {
-  name,
+  name: `${name} (POST)`,
   handler: function (this: Mocha.Suite) {
     this.slow(slow);
 

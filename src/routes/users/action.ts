@@ -34,7 +34,6 @@ class UsersController {
     const { username, password } = req.body;
 
     const result = await UsersController.findAndCompare(username, password, "fast");
-    console.log("RESULT", result);
 
     if (result === "user") return RouteResponse.deny("User not found", 404);
     if (result === "password") return RouteResponse.deny("Password is incorrect");

@@ -31,21 +31,21 @@ export default {
       });
     });
 
-    // it("must return 200, token and user when username and passwords are valid", (done) => {
-    //   const prod = DumpServer.get("production");
-    //   prod.postForGood(
-    //     name,
-    //     done,
-    //     (res: AxiosResponse) => {
-    //       expect(res.status).to.be.equal(200);
-    //       expect(res.data.token).not.to.be.undefined;
-    //       expect(res.data.user).not.to.be.undefined;
-    //     },
-    //     {
-    //       username: "test",
-    //       password: "test",
-    //     }
-    //   );
-    // });
+    it("must return 200, token and user when username and passwords are valid", (done) => {
+      const prod = DumpServer.get("production");
+      prod.postForGood(
+        name,
+        done,
+        (res: AxiosResponse) => {
+          expect(res.status).to.be.equal(200);
+          expect(res.data.data.token).not.to.be.undefined;
+          expect(res.data.data.user).not.to.be.undefined;
+        },
+        {
+          username: "test",
+          password: "test",
+        }
+      );
+    });
   },
 };
