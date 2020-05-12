@@ -1,29 +1,31 @@
 import DumpServer from "~/DumpServer";
+import { expect } from "chai";
 
-const name = "/token/test/generate";
-const slow = 20;
+const name = "/users/test/delete";
+const slow = 3000;
 
 export default {
-  name: `${name} (POST)`,
+  name: `${name} (DELETE)`,
   handler: function (this: Mocha.Suite) {
     this.slow(slow);
 
     it("must be closed in production", (done) => {
       const prod = DumpServer.get("production");
-      prod.postForNotFound(name, done);
+      prod.deleteForNotFound(name, done);
     });
 
     it("must return 412 when requirements are not met", (done) => {
       const dev = DumpServer.get("development");
-      dev.postForBadBody(name, done);
+      dev.deleteForBadBody(name, done);
     });
 
-    it("must return 200 when everything is ok", (done) => {
+    it("must return 200 when test user is deleted", async () => {
       const dev = DumpServer.get("development");
-      dev.postForOk(name, done, {
-        roles: [0],
-        username: "test-username",
+      const res = await dev.delete(name, {
+        username: "test",
       });
+
+      expect(res.status).to.be.equal(200);
     });
   },
 };

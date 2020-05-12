@@ -1,6 +1,7 @@
 import DumpServer from "~/DumpServer";
 import server from "./server";
 import token from "./token";
+import users from "./users";
 
 let productionServer: DumpServer;
 let developmentServer: DumpServer;
@@ -14,10 +15,16 @@ const tests = [
     name: "Token routes",
     routes: token,
   },
+  {
+    name: "Users routes",
+    routes: users,
+  },
 ];
 
 describe("Routes", function () {
-  this.beforeAll(() => {
+  this.timeout(10000);
+
+  this.beforeAll(async () => {
     productionServer = new DumpServer({
       port: 3010,
       isProduction: true,
@@ -48,5 +55,7 @@ describe("Routes", function () {
 
     DumpServer.unregister("production");
     DumpServer.unregister("development");
+
+    DumpServer.stopConnection();
   });
 });

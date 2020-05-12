@@ -8,16 +8,15 @@ class TokenTestService {
   @Test
   @Public
   @Body({
-    ip: String,
-    role_level: Number,
+    roles: Array,
     username: String,
   })
   @Post("/generate")
   public generate(req: Request): RouteResponse {
-    const { ip, role_level, username } = req.body;
+    const { ip, roles, username } = req.body;
 
     return RouteResponse.say("Success").send({
-      token: TokenService.create({ ip, role_level, username }),
+      token: TokenService.create({ ip: ip ?? req.clientIp, roles, username }),
     });
   }
 }

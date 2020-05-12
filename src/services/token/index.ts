@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import config from "@/config";
-import { Request } from "express";
 import { ITokenData } from "@/@types";
 import { LogOnErrorSync } from "@/utils";
 

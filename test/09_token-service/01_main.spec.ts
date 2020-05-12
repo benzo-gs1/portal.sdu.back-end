@@ -4,7 +4,7 @@ import { ITokenData } from "@/@types";
 
 const FAKE_TOKEN_DATA: ITokenData = {
   ip: "some-ip",
-  role_level: 0,
+  roles: [0],
   username: "some-username",
 };
 const AUTHORIZATION_HEADER = "Bearer some-token";

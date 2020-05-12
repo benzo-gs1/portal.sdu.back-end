@@ -34,7 +34,7 @@ export interface IConfig {
 export interface ITokenData {
   ip: string;
   username: string;
-  role_level: number;
+  roles: number[];
 }
 
 export interface IRequestWithToken extends Request {

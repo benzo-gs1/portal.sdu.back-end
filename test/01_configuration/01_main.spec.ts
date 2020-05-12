@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import config from "@/config";
+import DumpServer from "~/DumpServer";
 
 // test in production
 const isProduction: boolean = process.argv[2] === "--production";
@@ -11,7 +12,7 @@ describe("Configurations", function () {
 
   this.beforeAll(function () {
     config.init();
-    config.isTesting = true;
+    DumpServer.enableTestMode();
   });
 
   describe("#setConfig()", function () {

@@ -1,7 +1,8 @@
 import UserModels from "@/models/users";
 import { Controller, Test, Post, RouteResponse } from "@/utils";
 import { Request } from "express";
-import { Body } from "@/utils/Route";
+import { Body, Delete } from "@/utils/Route";
+import CryptoService from "@/services/crypto";
 
 @Controller("/users/test")
 class UsersTestController {
@@ -13,20 +14,35 @@ class UsersTestController {
     role: Number,
   })
   @Post("/create")
-  public create(req: Request) {
+  public async create(req: Request) {
     const { username, password, language, role } = req.body;
 
     const User = UserModels.fast;
+    const hashedPassword = CryptoService.hashPassword(password);
 
     const user = new User({
       username,
-      password,
+      password: hashedPassword,
       language,
       roles: [role],
     });
 
-    user.save();
+    await user.save();
     return RouteResponse.say("Success").send(user);
+  }
+
+  @Test
+  @Body({
+    username: String,
+  })
+  @Delete("/delete")
+  public async delete(req: Request) {
+    const { username } = req.body;
+
+    const User = UserModels.fast;
+
+    await User.deleteOne({ username }).exec();
+    return RouteResponse.say("Success");
   }
 }
 

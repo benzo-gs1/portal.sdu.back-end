@@ -1,45 +1,60 @@
 import UserModels from "@/models/users";
-import { Controller, Test, Post, RouteResponse } from "@/utils";
+import { Controller, Post, RouteResponse } from "@/utils";
 import { Request } from "express";
 import { Body } from "@/utils/Route";
 import CryptoService from "@/services/crypto";
 import TokenService from "@/services/token";
+import IUser from "@/models/users/interface";
 
 @Controller("/users")
 class UsersController {
+  public static async findAndCompare(
+    username: string,
+    password: string,
+    type: "fast" | "slow"
+  ): Promise<IUser | "password" | "user"> {
+    const User = type == "fast" ? UserModels.fast : UserModels.slow;
+    const user = await User.findOne({ username }).exec();
+
+    if (user) {
+      const isValidPassword = CryptoService.validatePasswords(password, user.password);
+
+      return isValidPassword ? user : "password";
+    }
+
+    return "user";
+  }
+
   @Body({
     username: String,
     password: String,
   })
   @Post("/authorize")
-  public authorize(req: Request) {
+  public async authorize(req: Request) {
     const { username, password } = req.body;
-    const User = UserModels.fast;
 
-    const userFound = User.findOne({ username });
+    const result = await UsersController.findAndCompare(username, password, "fast");
 
-    if (userFound) {
-      const hashPassword = CryptoService.hashPassword(password);
-      const isValidPassword = CryptoService.validatePasswords(password, hashPassword);
+    if (result === "user") return RouteResponse.deny("User not found", 404);
+    if (result === "password") return RouteResponse.deny("Password is incorrect");
 
-      if (isValidPassword) {
-        const tokenData = {
-          username,
-          role_level: userFound.roles[0],
-          ip: req.clientIp,
-        };
-        const token = TokenService.create(tokenData);
+    const token = TokenService.create({
+      ip: req.clientIp as string,
+      roles: result.roles,
+      username,
+    });
 
-        return RouteResponse.say("Success").send({
-          token: token,
-          user: userFound,
-        });
-      }
-      
-      return RouteResponse.deny("Password is incorrect");
-    }
-    
-    return RouteResponse.deny("User not found", 404);
+    return RouteResponse.say("Success").send({
+      token,
+      user: {
+        username,
+        language: result.language,
+        roles: result.roles,
+        widgets: result.widgets,
+        // TODO return user status here
+        // status: result.status
+      },
+    });
   }
 
   @Body({
@@ -47,36 +62,15 @@ class UsersController {
     password: String,
   })
   @Post("/validate")
-  public validate(req: Request) {
+  public async validate(req: Request) {
     const { username, password } = req.body;
-    const User = UserModels.fast;
 
-    const userFound = User.findOne({ username: username });
+    const result = await UsersController.findAndCompare(username, password, "fast");
 
-    if (userFound) {
-      const token = req.headers.authorization;
+    if (result === "user") return RouteResponse.deny("User not found", 404);
+    if (result === "password") return RouteResponse.deny("Password is incorrect");
 
-      if (token) {
-        const isValidToken = TokenService.validate(token);
-
-        return isValidToken
-          ? RouteResponse.say("Credentials are valid").send({
-              status: true,
-              message: "Credentials are valid",
-            })
-          : RouteResponse.deny("Password is incorrect").send({
-              status: false,
-              message: "Password is incorrect",
-            });
-      } else {
-        return RouteResponse.say("No token found");
-      }
-    } else {
-      return RouteResponse.deny("User not found").send({
-        status: true,
-        message: "User not found",
-      });
-    }
+    return RouteResponse.say("Credentials are valid");
   }
 }
 

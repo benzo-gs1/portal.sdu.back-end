@@ -6,7 +6,7 @@ let encrypted: string;
 
 const slow = {
   hashPasswords: 40,
-  validate: 40,
+  validate: 60,
 };
 
 describe("Crypto Service", function () {
@@ -22,8 +22,17 @@ describe("Crypto Service", function () {
   describe("#validatePasswords", function () {
     this.slow(slow.validate);
 
-    it("must validate passwords properly", function () {
+    it("must return true when password is valid", function () {
       expect(CryptoService.validatePasswords(password, encrypted)).to.be.true;
+    });
+
+    it("must return false when passwords are not matching", function () {
+      expect(CryptoService.validatePasswords(password + "1", encrypted)).to.be.false;
+    });
+
+    it("must pass custom passwords test", function () {
+      const password = CryptoService.hashPassword("test");
+      expect(CryptoService.validatePasswords("tst", password)).to.be.false;
     });
   });
 });

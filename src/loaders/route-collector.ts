@@ -57,9 +57,9 @@ export default function collector(app: Application, config: IConfig) {
 
       const access = accessName === "private" ? privateApi : publicApi;
 
-      const responseBody = (req: Request, res: Response) => {
+      const responseBody = async (req: Request, res: Response) => {
         try {
-          const response = handler(req, res) as RouteResponse;
+          const response = (await handler(req, res)) as RouteResponse;
           const code = response.code;
           delete response["code"];
           res.status(code).send(response);
@@ -88,7 +88,10 @@ export default function collector(app: Application, config: IConfig) {
           }
           const reqType = typeof req.body[key];
           const bodyType = body[key].name?.toLowerCase();
-          const isCorrectType = reqType === bodyType;
+          let isCorrectType: boolean;
+
+          if (bodyType === "array") isCorrectType = Array.isArray(req.body[key]);
+          else isCorrectType = reqType === bodyType;
 
           if (!isCorrectType) {
             return res.status(412).send({
@@ -101,14 +104,12 @@ export default function collector(app: Application, config: IConfig) {
         return next();
       };
 
-      if (isProtected && body)
-        app[route.requestMethod](path, access(), authorization(), bodyHandler, responseBody); 
-      else if (isProtected && !body) 
-        app[route.requestMethod](path, access(), authorization(), responseBody);
-      else if (!isProtected && body)
-        app[route.requestMethod](path, access(), bodyHandler, responseBody);
-      else if (!isProtected && !body)
-        app[route.requestMethod](path, access(), responseBody);
+      const handlers = [access()];
+
+      if (isProtected) handlers.push(authorization());
+      if (body) handlers.push(bodyHandler);
+
+      app[route.requestMethod](path, ...handlers, responseBody);
     });
   });
 }
