@@ -8,7 +8,7 @@ import IUser from "@/models/users/interface";
 
 @Controller("/users")
 class UsersController {
-  private async findAndCompare(
+  public static async findAndCompare(
     username: string,
     password: string,
     type: "fast" | "slow"
@@ -34,7 +34,8 @@ class UsersController {
   public async authorize(req: Request) {
     const { username, password } = req.body;
 
-    const result = await this.findAndCompare(username, password, "fast");
+    const result = await UsersController.findAndCompare(username, password, "fast");
+    console.log("RESULT", result);
 
     if (result === "user") return RouteResponse.deny("User not found", 404);
     if (result === "password") return RouteResponse.deny("Password is incorrect");
@@ -66,7 +67,7 @@ class UsersController {
   public async validate(req: Request) {
     const { username, password } = req.body;
 
-    const result = await this.findAndCompare(username, password, "fast");
+    const result = await UsersController.findAndCompare(username, password, "fast");
 
     if (result === "user") return RouteResponse.deny("User not found", 404);
     if (result === "password") return RouteResponse.deny("Password is incorrect");
