@@ -41,7 +41,7 @@ class UsersTestController {
 
     const User = UserModels.fast;
 
-    await User.findOneAndRemove({ username }).exec();
+    await User.deleteOne({ username }).exec();
     return RouteResponse.say("Success");
   }
 }

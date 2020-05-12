@@ -1,7 +1,7 @@
 import DumpServer from "~/DumpServer";
 import { expect } from "chai";
 
-const name = "/users/test/create";
+const name = "/users/test/delete";
 const slow = 3000;
 
 export default {
@@ -11,21 +11,18 @@ export default {
 
     it("must be closed in production", (done) => {
       const prod = DumpServer.get("production");
-      prod.postForNotFound(name, done);
+      prod.deleteForNotFound(name, done);
     });
 
     it("must return 412 when requirements are not met", (done) => {
       const dev = DumpServer.get("development");
-      dev.postForBadBody(name, done);
+      dev.deleteForBadBody(name, done);
     });
 
-    it("must return 200 when test user is created", async () => {
+    it("must return 200 when test user is deleted", async () => {
       const dev = DumpServer.get("development");
-      const res = await dev.post(name, {
+      const res = await dev.delete(name, {
         username: "test",
-        password: "test",
-        language: "en",
-        role: 0,
       });
 
       expect(res.status).to.be.equal(200);

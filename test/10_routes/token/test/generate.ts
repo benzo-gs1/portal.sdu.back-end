@@ -1,7 +1,7 @@
 import DumpServer from "~/DumpServer";
 
 const name = "/token/test/generate";
-const slow = 10;
+const slow = 20;
 
 export default {
   name,
