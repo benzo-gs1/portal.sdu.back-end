@@ -1,7 +1,8 @@
 import DumpServer from "~/DumpServer";
+import { expect } from "chai";
 
-const name = "/token/test/generate";
-const slow = 10;
+const name = "/users/test/create";
+const slow = 3000;
 
 export default {
   name,
@@ -18,12 +19,16 @@ export default {
       dev.postForBadBody(name, done);
     });
 
-    it("must return 200 when everything is ok", (done) => {
+    it("must return 200 when everything is ok", async () => {
       const dev = DumpServer.get("development");
-      dev.postForOk(name, done, {
-        roles: [0],
-        username: "test-username",
+      const res = await dev.post(name, {
+        username: "test",
+        password: "test",
+        language: "en",
+        role: 0,
       });
+
+      expect(res.status).to.be.equal(200);
     });
   },
 };
