@@ -8,7 +8,6 @@ class TokenTestService {
   @Test
   @Public
   @Body({
-    ip: String,
     roles: Array,
     username: String,
   })
@@ -17,7 +16,7 @@ class TokenTestService {
     const { ip, roles, username } = req.body;
 
     return RouteResponse.say("Success").send({
-      token: TokenService.create({ ip, roles, username }),
+      token: TokenService.create({ ip: ip ?? req.clientIp, roles, username }),
     });
   }
 }

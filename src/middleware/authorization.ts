@@ -18,9 +18,12 @@ export default () => {
 
         // same ip source
         if (ip === clientIp) {
-          let isAuthorized = roles.reduce((prev, curr) => {
-            return prev && RoleService.authorize(curr, req.originalUrl);
-          }, false);
+          let isAuthorized = false;
+          for (const role_level of roles) {
+            isAuthorized = RoleService.authorize(role_level, req.originalUrl);
+
+            if (isAuthorized) break;
+          }
 
           // resource is available for the role
           if (isAuthorized) {
