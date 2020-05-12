@@ -14,7 +14,7 @@ class UsersTestController {
     role: Number,
   })
   @Post("/create")
-  public create(req: Request) {
+  public async create(req: Request) {
     const { username, password, language, role } = req.body;
 
     const User = UserModels.fast;
@@ -27,7 +27,7 @@ class UsersTestController {
       roles: [role],
     });
 
-    user.save();
+    await user.save();
     return RouteResponse.say("Success").send(user);
   }
 }

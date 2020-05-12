@@ -57,9 +57,9 @@ export default function collector(app: Application, config: IConfig) {
 
       const access = accessName === "private" ? privateApi : publicApi;
 
-      const responseBody = (req: Request, res: Response) => {
+      const responseBody = async (req: Request, res: Response) => {
         try {
-          const response = handler(req, res) as RouteResponse;
+          const response = (await handler(req, res)) as RouteResponse;
           const code = response.code;
           delete response["code"];
           res.status(code).send(response);
