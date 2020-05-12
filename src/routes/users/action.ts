@@ -17,8 +17,7 @@ class UsersController {
     const user = await User.findOne({ username }).exec();
 
     if (user) {
-      const hashPassword = CryptoService.hashPassword(password);
-      const isValidPassword = CryptoService.validatePasswords(password, hashPassword);
+      const isValidPassword = CryptoService.validatePasswords(password, user.password);
 
       return isValidPassword ? user : "password";
     }
