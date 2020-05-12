@@ -101,14 +101,12 @@ export default function collector(app: Application, config: IConfig) {
         return next();
       };
 
-      if (isProtected && body)
-        app[route.requestMethod](path, access(), authorization(), bodyHandler, responseBody); 
-      else if (isProtected && !body) 
-        app[route.requestMethod](path, access(), authorization(), responseBody);
-      else if (!isProtected && body)
-        app[route.requestMethod](path, access(), bodyHandler, responseBody);
-      else if (!isProtected && !body)
-        app[route.requestMethod](path, access(), responseBody);
+      const handlers = [access()];
+
+      if (isProtected) handlers.push(authorization());
+      if (body) handlers.push(bodyHandler);
+
+      app[route.requestMethod](path, ...handlers, responseBody);
     });
   });
 }
