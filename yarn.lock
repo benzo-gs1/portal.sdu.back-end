@@ -2012,10 +2012,10 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
-eventemitter2@^6.3.1:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.3.1.tgz#14ec7db8c659aa9b36ad2ce4bfcaba95ad525536"
-  integrity sha512-cxfu3g0IBn/JEhAPV33NZTi8llQQ5j62D0Yf4ir1U9uQ1DlRZLL3Hh2E/+TWDprSy4BETWvrGBZMUexuC2b6Lw==
+eventemitter2@^6.4.1:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.4.1.tgz#7fb2dd95f9f7c3c615e848d8a91a18a65feb51b3"
+  integrity sha512-x4TgZ3j6tfLGzAJ4MD7M7qTdAiDlfKdssgFENVpW0csJKdlXTpE27SWUDEDb5eNS/HBWQtiDFPKiO6oHokYDqg==
 
 execa@^2.1.0:
   version "2.1.0"
