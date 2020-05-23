@@ -966,10 +966,10 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/helmet@^0.0.46":
-  version "0.0.46"
-  resolved "https://registry.yarnpkg.com/@types/helmet/-/helmet-0.0.46.tgz#8093232608a52d3209dd31da8526167fd93f4d27"
-  integrity sha512-gGp1XVSYFRbKT0nl8nLwst6JvwcB7wGAGVkvKja2LKz3tJuTcgmo2TklQ0kUY/t8sOM94IdvBcfgGAYbJsk3tw==
+"@types/helmet@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.yarnpkg.com/@types/helmet/-/helmet-0.0.47.tgz#ec5161541b649142205b7c558bca14801c5ce129"
+  integrity sha512-TcHA/djjdUtrMtq/QAayVLrsgjNNZ1Uhtz0KhfH01mrmjH44E54DA1A0HNbwW0H/NBFqV+tGMo85ACuEhMXcdg==
   dependencies:
     "@types/express" "*"
 
@@ -4641,10 +4641,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^3.8.3:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
-  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+typescript@^3.9.3:
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.3.tgz#d3ac8883a97c26139e42df5e93eeece33d610b8a"
+  integrity sha512-D/wqnB2xzNFIcoBG9FG8cXRDjiqSTbG2wd8DMZeQyJlP1vfTkIxH4GKveWaEBYySKIg+USu+E+EDIR47SqnaMQ==
 
 undefsafe@^2.0.2:
   version "2.0.3"
