@@ -75,7 +75,7 @@
     "@types/helmet": "^0.0.47",
     "@types/mocha": "^7.0.2",
     "@types/mongoose": "^5.7.21",
-    "@types/node": "^14.0.5",
+    "@types/node": "^14.14.24",
     "@types/request-ip": "^0.0.35",
     "babel-plugin-root-import": "^6.5.0",
     "chai": "^4.2.0",
